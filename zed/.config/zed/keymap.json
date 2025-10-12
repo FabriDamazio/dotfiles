@@ -1,0 +1,117 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      // "j k": "vim::NormalBefore"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "\\ t": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "!ContextEditor > (Editor && mode == full)",
+    "bindings": {
+      "\\ p v": "pane::RevealInProjectPanel"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "\\ p v": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "AgentPanel",
+    "bindings": {
+      "\\ p v": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "\\ c c": "agent::ToggleFocus"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-c ctrl-c": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "g r": "editor::FindAllReferences"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "\\ r n": "editor::Rename"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "\\ f": "editor::Format"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-k": "editor::MoveLineUp"
+    }
+  },
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      "shift-j": "editor::MoveLineDown"
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "\\ d": "editor::DeleteLine"
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "\\ h s": "pane::SplitDown"
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "\\ v s": "pane::SplitRight"
+    }
+  },
+  {
+    "context": "(VimControl && !menu)",
+    "bindings": {
+      "\\ p f": "pane::DeploySearch"
+    }
+  },
+  {
+    "context": "(Editor && showing_completions)",
+    "bindings": {
+      "ctrl-y": "editor::ConfirmCompletion"
+    }
+  }
+]
