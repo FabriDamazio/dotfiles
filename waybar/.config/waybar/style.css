@@ -1,6 +1,8 @@
+@import "mocha.css"; 
+
 /* Global Styles */
 * {
-  font-family: 'SF Pro Text', 'Inter', 'Segoe UI', 'NotoSans Nerd Font', sans-serif;
+  font-family: 'JetBrainsMono Nerd Font', sans-serif;
   font-size: 18px;
   min-height: 0;
   padding: 0;
@@ -9,7 +11,7 @@
 /* Waybar Container */
 #waybar {
   background: transparent;
-  color: #c6d0f5;
+  color: @overlay0;
   margin: 0px;
   font-weight: 500;
 }
@@ -17,7 +19,7 @@
 /* Left Modules (Individual, Fully Rounded Blocks) */
 #workspaces,
 #cpu {
-  background-color: #1a1b26;
+  background-color: @base;
   padding: 0.3rem 0.7rem;
   margin: 5px 0px;
   border-radius: 6px;
@@ -34,11 +36,11 @@
 }
 
 #cpu:hover {
-  background-color: rgb(41, 42, 53);
+  background-color: @surface0;
 }
 
 #workspaces button {
-  color: #babbf1;
+  color: @text;
   border-radius: 5px;
   padding: 0.3rem 0.6rem;
   background: transparent;
@@ -48,19 +50,19 @@
 }
 
 #workspaces button.active {
-  color: #99d1db;
-  background-color: rgba(153, 209, 219, 0.1);
+  color: @sapphire;
+  background-color: rgba(116, 199, 236, 0.1);
   box-shadow: inset 0 0 0 1px rgba(153, 209, 219, 0.2);
 }
 
 #workspaces button:hover {
-  background: rgb(41, 42, 53);
+  background: @surface0; 
   color: #c6d0f5;
 }
 
 /* Center Module */
 #clock {
-  background-color: #1a1b26;
+  background-color: @base;
   padding: 0.3rem 0.7rem;
   margin: 5px 0px;
   border-radius: 6px;
@@ -71,7 +73,7 @@
 }
 
 #clock:hover {
-  background-color: rgba(153, 209, 219, 0.1);
+  background-color: @surface0; 
 }
 
 /* Right Modules (Single, Seamless Bar) */
@@ -81,7 +83,7 @@
 #network,
 #custom-lock,
 #battery {
-  background-color: #1a1b26;
+  background-color: @base;
   padding: 0.3rem 0.7rem;
   margin: 5px 0px;
   border-radius: 0;
@@ -97,7 +99,7 @@
 #network:hover,
 #custom-lock:hover,
 #battery:hover {
-  background-color: rgb(41, 42, 53);
+  background-color: @surface0; 
 }
 
 #bluetooth {
@@ -114,63 +116,63 @@
 
 /* Colors */
 #cpu {
-  color: #c6d0f5;
+  color: @text;
 }
 
 #clock {
-  color: #99d1db;
+  color: @text;
   font-weight: 500;
 }
 
 #pulseaudio {
-  color: #c6d0f5;
+  color: @text;
 }
 
 #backlight {
-  color: #c6d0f5;
+  color: @text;
 }
 
 #network {
-  color: #c6d0f5;
+  color: @text;
 }
 
 #network.disconnected {
-  color: #e78284;
+  color: @text;
 }
 
 #custom-lock {
-  color: #babbf1;
+  color: @text;
 }
 
 #bluetooth {
-  color: #888888;
+  color: @text;
   font-size: 16px;
 }
 
 #bluetooth.on {
-  color: #2196f3;
+  color: @sapphire;
 }
 
 #bluetooth.connected {
-  color: #99d1db;
+  color: @sky;
 }
 
 #battery {
-  color: #99d1db;
+  color: @text;
 }
 
 #battery.charging {
-  color: #a6d189;
+  color: @sapphire;
 }
 
 #battery.warning:not(.charging) {
-  color: #e78284;
+  color: @red;
 }
 
 /* Tooltip Styles */
 tooltip {
-  background-color: #1a1b26;
-  color: #dddddd;
+  background-color: @base;
+  color: @text;
   padding: 5px 12px;
   margin: 5px 0px;
   border-radius: 6px;
