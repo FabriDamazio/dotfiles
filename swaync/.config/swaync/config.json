@@ -1,10 +1,10 @@
 {
   "$schema": "/etc/xdg/swaync/configSchema.json",
-  "positionX": "center",
+  "positionX": "right",
   "positionY": "top",
 	"cssPriority": "user",
 
-  "control-center-width": 600,
+  "control-center-width": 500,
   "control-center-height": 800, 
   "control-center-margin-top": 2,
   "control-center-margin-bottom": 2,
@@ -74,23 +74,23 @@
       "actions": [
         {
           "label": "󰕾 ",
-          "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+          "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle && swaync-client -t"
         },
         {
           "label": "",
-          "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+          "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle && swaync-client -t"
         },
         {
           "label": " ",
-          "command": "nm-connection-editor"
+          "command": "nm-connection-editor && swaync-client -t"
         },
         {
           "label": "󰂯",
-          "command": "blueman-manager"
+          "command": "blueman-manager && swaync-client -t"
         },
         {
           "label": "󰏘",
-          "command": "nwg-look"
+          "command": "nwg-look && swaync-client -t"
         }
         
       ]

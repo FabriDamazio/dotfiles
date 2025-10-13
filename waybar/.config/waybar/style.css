@@ -85,6 +85,7 @@
 #backlight,
 #network,
 #custom-lock,
+#custom-notifications,
 #battery {
   background-color: @base;
   padding: 0.3rem 0.7rem;
@@ -133,8 +134,6 @@
 
 #pulseaudio {
   color: @text;
-  margin-right: 7px;
-  border-radius: 6px;
 }
 
 #backlight {
@@ -150,6 +149,12 @@
 }
 
 #custom-lock {
+  color: @text;
+  margin-right: 7px;
+  border-radius: 6px;
+}
+
+#custom-notifications {
   color: @text;
 }
 

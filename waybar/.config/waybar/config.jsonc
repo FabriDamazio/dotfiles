@@ -14,6 +14,8 @@
     "bluetooth",
     "network",
     "pulseaudio", 
+    "custom/notifications",
+    "custom/lock",
   ],
 
   "hyprland/workspaces": {
@@ -112,6 +114,12 @@
   "tooltip": false,
   "on-click": "sh -c '(sleep 0s; hyprlock)' & disown",
   "format" : ""
+  },
+  
+  "custom/notifications": {
+  "tooltip": false,
+  "on-click": "swaync-client -t",
+  "format" : ""
   },
 }
 
