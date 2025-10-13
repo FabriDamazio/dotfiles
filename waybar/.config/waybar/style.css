@@ -18,10 +18,11 @@
 
 /* Left Modules (Individual, Fully Rounded Blocks) */
 #workspaces,
+#custom-music,
 #cpu {
   background-color: @base;
   padding: 0.3rem 0.7rem;
-  margin: 5px 0px;
+  margin: 5px 5px;
   border-radius: 6px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-width: 0;
@@ -32,10 +33,13 @@
 #workspaces {
   padding: 2px;
   margin-left: 7px;
-  margin-right: 5px;
 }
 
 #cpu:hover {
+  background-color: @surface0;
+}
+
+#custom-music:hover {
   background-color: @surface0;
 }
 
@@ -60,7 +64,6 @@
   color: #c6d0f5;
 }
 
-/* Center Module */
 #clock {
   background-color: @base;
   padding: 0.3rem 0.7rem;
@@ -119,6 +122,10 @@
   color: @text;
 }
 
+#custom-music {
+  color: @text;
+}
+
 #clock {
   color: @text;
   font-weight: 500;
@@ -126,6 +133,8 @@
 
 #pulseaudio {
   color: @text;
+  margin-right: 7px;
+  border-radius: 6px;
 }
 
 #backlight {

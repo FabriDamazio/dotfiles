@@ -5,7 +5,8 @@
   "spacing" : 0,
   "modules-left": [
   "hyprland/workspaces",
-  "cpu"
+  "cpu",
+  "custom/music"
   ],
 
   "modules-right": [
