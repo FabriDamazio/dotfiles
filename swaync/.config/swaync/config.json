@@ -73,12 +73,12 @@
     "buttons-grid": {
       "actions": [
         {
-          "label": " ",
-          "command": "amixer set Master toggle"
+          "label": "󰕾 ",
+          "command": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
         },
         {
           "label": "",
-          "command": "amixer set Capture toggle"
+          "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
         },
         {
           "label": " ",
