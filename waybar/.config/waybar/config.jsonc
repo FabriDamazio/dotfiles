@@ -50,9 +50,30 @@
 
   "clock": {
     "timezone": "America/Sao_Paulo",
-    "tooltip": false,
+    "tooltip": true,
     "format": "{:%H:%M:%S  -  %A, %d}",
-    "interval": 1
+    "interval": 1,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+      "calendar": {
+        "mode"          : "month",
+        "mode-mon-col"  : 3,
+        "weeks-pos"     : "right",
+        "on-scroll"     : 1,
+        "format": {
+          "months":     "<span color='#74c7ec'><b>{}</b></span>",
+          "days":       "<span color='#89dceb'><b>{}</b></span>",
+          "weeks":      "<span color='#a6e3a1'><b>W{}</b></span>",
+          "weekdays":   "<span color='#89b4fa'><b>{}</b></span>",
+          "today":      "<span color='#a6e3a1'><b><u>{}</u></b></span>"
+        }
+      },
+      "actions":  {
+        "on-click-right": "mode",
+        "on-scroll-up": "tz_up",
+        "on-scroll-down": "tz_down",
+        "on-scroll-up": "shift_up",
+        "on-scroll-down": "shift_down"
+      }
   },
 
   "network": {
