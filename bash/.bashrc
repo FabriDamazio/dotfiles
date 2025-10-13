@@ -9,5 +9,11 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 
-# Dotfiles repo
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+# init starship
+eval "$(starship init bash)"
+
+# mise
+eval "$(~/.local/bin/mise activate bash)"
+
+# elixir iex shell history
+export ERL_AFLAGS="-kernel shell_history enabled"
