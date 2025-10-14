@@ -18,3 +18,7 @@ eval "$(~/.local/bin/mise activate bash)"
 # elixir iex shell history
 export ERL_AFLAGS="-kernel shell_history enabled"
 . "$HOME/.cargo/env"
+
+# fly io cli
+export FLYCTL_INSTALL="/home/fabri/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
