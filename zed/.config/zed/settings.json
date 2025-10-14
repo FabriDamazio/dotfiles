@@ -31,7 +31,7 @@
     "model_parameters": [],
     "default_model": {
       "provider": "ollama",
-      "model": "gpt-oss:latest"
+      "model": "qwen3-coder:latest"
     }
   },
   "vim_mode": true,
