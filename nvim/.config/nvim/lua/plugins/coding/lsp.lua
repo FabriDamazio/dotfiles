@@ -110,7 +110,7 @@ return {
     end
 
     lspconfig.expert_lsp.setup({
-      cmd = { "/home/fabri/.local/bin/expert/expert_linux_amd64" },
+      cmd = { "/home/fabri/.local/bin/expert_linux_amd64" },
       filetypes = { "elixir", "eex", "heex", "surface" },
       capabilities = capabilities,
       root_dir = lspconfig.util.root_pattern("mix.exs", ".git"),

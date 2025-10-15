@@ -17,7 +17,7 @@ return {
               },
               schema = {
                 model = {
-                  default = "qwen3:30b-a3b-instruct-2507-q4_K_M",
+                  default = "qwen3-coder:latest",
                 },
                 num_ctx = {
                   default = 32768,
