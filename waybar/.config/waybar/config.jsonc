@@ -16,6 +16,7 @@
     "pulseaudio", 
     "custom/notifications",
     "custom/lock",
+    "custom/shutdown"
   ],
 
   "hyprland/workspaces": {
@@ -120,6 +121,12 @@
   "tooltip": false,
   "on-click": "swaync-client -t",
   "format" : ""
+  },
+  
+  "custom/shutdown": {
+  "tooltip": false,
+  "on-click": "shutdown -h now",
+  "format" : "⏻"
   },
 }
 
