@@ -169,6 +169,7 @@ if curl -fsSL https://mise.run | sh; then
     echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
     if ! grep -q "mise" ~/.bashrc; then
       echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+      source ~/.bashrc &> /dev/null
       echo "[INFO] mise added to bashrc."
     else
       echo "${YELLOW}[INFO] mise already configured in bashrc."
