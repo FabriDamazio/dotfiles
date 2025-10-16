@@ -1,5 +1,11 @@
 # Installation script
 
+# Download this script
+# wget https://raw.githubusercontent.com/FabriDamazio/dotfiles/master/install.sh
+
+# Make executable
+# chmod +x install.sh
+
 ##############################################################################
 # VARIABLES                                                                  #
 ##############################################################################
@@ -45,10 +51,8 @@ packages_pacman=(
     sddm
     spotify-launcher
     starship
-    steam
     stow
     swaync
-    swaync-widgets-git-debug
     thunderbird
     waybar
     wireplumber
@@ -65,6 +69,7 @@ packages_yay=(
     neovim-git
     mpdris2-rs
     vial-appimage
+    swaync-widgets-git
 )
 
 
@@ -154,4 +159,8 @@ fi
 #flyctl
 #remove boot menu
 
-
+# steam 
+# needs enable multilib on pacman
+# /etc/pacman.conf
+#[multilib]
+#Include = /etc/pacman.d/mirrorlist
