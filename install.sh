@@ -20,6 +20,16 @@ YELLOW='\e[1;93m'
 NO_COLOR='\e[0m'
 
 packages_pacman=(
+    base-devel
+    ncurses
+    openssl
+    libssh
+    unixodbc
+    wxwidgets-gtk3
+    mesa
+    libgl
+    fop
+    libxslt
     blueman
     firefox
     flameshot
@@ -71,6 +81,11 @@ packages_yay=(
     vial-appimage
 )
 
+mise_core_tools=(
+    java@openjdk-21
+    erlang@28.1
+    elixir@1.19.0-otp-28
+  )
 
 ##############################################################################
 # PRE INSTALLATION                                                           #
@@ -97,12 +112,6 @@ fi
 # INSTALL PACKAGES                                                           #
 ##############################################################################
 
-# yay
-#pacman -S --needed git base-devel
-#git clone https://aur.archlinux.org/yay.git
-#cd yay
-#makepkg -si
-
 # Installing pacman packages
 echo -e "${NO_COLOR}[INFO] Installing pacman packages...${NO_COLOR}"
 for package in "${packages_pacman[@]}"; do
@@ -118,6 +127,7 @@ for package in "${packages_pacman[@]}"; do
     fi
 done
 
+# Installing yay
 echo -e "${NO_COLOR}[INFO] Installing yay...${NO_COLOR}"
 
 if command -v yay &> /dev/null; then
@@ -153,9 +163,53 @@ else
     echo -e "${YELLOW}[WARNING] yay not found. Skipping AUR packages.${NO_COLOR}"
 fi
 
-# mise
-#erlang (e dependencias)
-#elixir
+# Installing mise
+echo -e "${NO_COLOR}[INFO] Installing mise...${NO_COLOR}"
+if curl -fsSL https://mise.run | sh; then
+    echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
+else
+    echo -e "${RED}[ERROR] Mise installation failed.${NO_COLOR}"
+fi
+
+# Install all core tools with mise
+echo "[INFO] Installing core tools via mise..."
+
+for tool in "${mise_core_tools[@]}"; do
+    echo "[INFO] Installing $tool..."
+    
+    if mise install "$tool"; then
+        echo "[SUCCESS] $tool installed successfully"
+        
+        # Set as global default
+        if mise use --global "$tool"; then
+            echo "[SUCCESS] $tool set as global default"
+        else
+            echo "[WARNING] $tool installed but could not set as global default"
+        fi
+    else
+        echo "[ERROR] Failed to install $tool"
+        exit 1
+    fi
+done
+
+echo "[INFO] Verifying installations..."
+
+for tool in "${mise_core_tools[@]}"; do
+    tool_name=$(echo "$tool" | cut -d'@' -f1)
+    
+    if mise exec "$tool_name" --version; then
+        echo "[SUCCESS] $tool verification passed"
+    else
+        echo "[ERROR] $tool verification failed"
+        exit 1
+    fi
+done
+
+echo "[SUCCESS] All core tools installed successfully!"
+
+
+
+#expert lsp
 #rust
 #flyctl
 #remove boot menu
