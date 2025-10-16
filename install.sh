@@ -167,6 +167,12 @@ fi
 echo -e "${NO_COLOR}[INFO] Installing mise...${NO_COLOR}"
 if curl -fsSL https://mise.run | sh; then
     echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
+    if ! grep -q "mise" ~/.bashrc; then
+      echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+      echo "[INFO] mise added to bashrc."
+    else
+      echo "${YELLOW}[INFO] mise already configured in bashrc."
+    fi
 else
     echo -e "${RED}[ERROR] Mise installation failed.${NO_COLOR}"
 fi
@@ -213,9 +219,12 @@ echo "[SUCCESS] All core tools installed successfully!"
 #rust
 #flyctl
 #remove boot menu
+# cofigure git
 
 # steam 
 # needs enable multilib on pacman
 # /etc/pacman.conf
 #[multilib]
 #Include = /etc/pacman.d/mirrorlist
+
+# replace bashrc
