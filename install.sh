@@ -20,6 +20,7 @@ YELLOW='\e[1;93m'
 NO_COLOR='\e[0m'
 
 packages_pacman=(
+    git
     base-devel
     ncurses
     openssl
@@ -74,7 +75,6 @@ packages_pacman=(
 )
 
 packages_yay=(
-    git-git
     catppuccin-gtk-theme-mocha
     neovim-git
     mpdris2-rs
