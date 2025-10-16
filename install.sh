@@ -33,6 +33,7 @@ packages_pacman=(
     hyprpaper
     hyprpicker
     hyprpolkitagent
+    hyprland-qt-support
     inotify-tools
     mpv
     mpv-mpris
@@ -65,7 +66,6 @@ packages_pacman=(
 
 packages_yay=(
     catppuccin-gtk-theme-mocha
-    hyprland-qt-support-git
     neovim-git
     mpdris2-rs
     vial-appimage
