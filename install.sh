@@ -33,7 +33,6 @@ packages_pacman=(
     blueman
     firefox
     flameshot
-    git
     gnome-disk-utility
     godot
     grim
@@ -75,6 +74,7 @@ packages_pacman=(
 )
 
 packages_yay=(
+    git-git
     catppuccin-gtk-theme-mocha
     neovim-git
     mpdris2-rs
