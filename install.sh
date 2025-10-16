@@ -107,6 +107,10 @@ if ! command -v wget &> /dev/null; then
 else
   echo -e "${GREEN}[INFO] wget is already installed.${NO_COLOR}"
 fi
+# Update pacman database
+echo -e "${NO_COLOR}[INFO] Updating pacman database...${NO_COLOR}"
+sudo pacman -Sy --noconfirm &> /dev/null
+echo -e "${GY}[INFO] Pacman database updated.${NO_COLOR}"
 
 ##############################################################################
 # INSTALL PACKAGES                                                           #
