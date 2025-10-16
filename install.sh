@@ -69,7 +69,6 @@ packages_yay=(
     neovim-git
     mpdris2-rs
     vial-appimage
-    swaync-widgets-git
 )
 
 
@@ -129,6 +128,8 @@ else
     git clone "$yay_repo_url" "$temp_dir/yay" &> /dev/null
     cd "$temp_dir/yay" && makepkg -si --noconfirm &> /dev/null
     yay -Y --gendb &> /dev/null 
+    yay -Syu --devel &> /dev/null
+    yay -Y --nocleanafter --noremovemake --sudoloop --save &> /dev/null
     cd && rm -rf "$temp_dir/yay"
     echo -e "${GREEN}[INFO] yay installation completed.${NO_COLOR}"
 fi
