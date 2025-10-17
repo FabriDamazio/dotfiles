@@ -110,7 +110,7 @@ fi
 # Update pacman database
 echo -e "${NO_COLOR}[INFO] Updating pacman database...${NO_COLOR}"
 sudo pacman -Sy --noconfirm &> /dev/null
-echo -e "${GY}[INFO] Pacman database updated.${NO_COLOR}"
+echo -e "${GREEN}[INFO] Pacman database updated.${NO_COLOR}"
 
 ##############################################################################
 # INSTALL PACKAGES                                                           #
@@ -173,7 +173,7 @@ if curl -fsSL https://mise.run | sh; then
     echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
     if ! grep -q "mise" ~/.bashrc; then
       echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
-      source ~/.bashrc &> /dev/null
+      source ~/.bashrc 
       echo "[INFO] mise added to bashrc."
     else
       echo "${YELLOW}[INFO] mise already configured in bashrc."
@@ -199,29 +199,32 @@ for tool in "${mise_core_tools[@]}"; do
         fi
     else
         echo "[ERROR] Failed to install $tool"
-        exit 1
     fi
 done
 
-echo "[INFO] Verifying installations..."
+echo -e "${NO_COLOR}[INFO] Veryfing installation...${NO_COLOR}"
 
 for tool in "${mise_core_tools[@]}"; do
     tool_name=$(echo "$tool" | cut -d'@' -f1)
     
     if mise exec "$tool_name" --version; then
-        echo "[SUCCESS] $tool verification passed"
+        echo -e "${GREEN}[INFO] $tool verification passed.${NO_COLOR}"
     else
-        echo "[ERROR] $tool verification failed"
-        exit 1
+        echo -e "${RED}[ERROR] $tool verification failed.${NO_COLOR}"
     fi
 done
 
-echo "[SUCCESS] All core tools installed successfully!"
+echo -e "${GREEN}[INFO] $All core tools installed successfull.${NO_COLOR}"
 
-
+# Installing Rust
+echo -e "${NO_COLOR}[INFO] Installing Rust...${NO_COLOR}"
+if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh; then
+  echo -e "${GREEN}[INFO] Rust installation completed.${NO_COLOR}"
+else
+  echo -e "${RED}[ERROR] Rust installation failed.${NO_COLOR}"
+fi
 
 #expert lsp
-#rust
 #flyctl
 #remove boot menu
 # cofigure git
