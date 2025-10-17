@@ -231,7 +231,7 @@ if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
     for dir in */; do
         if [ -d "$dir" ]; then
             echo "${NO_COLOR}[INFO] Installing dotfiles from: ${dir%/}${NO_COLOR}"
-            stow "${dir%/} --adopt"
+            stow "${dir%/}" --adopt
         fi
     done
     echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
@@ -242,7 +242,7 @@ fi
 #expert lsp
 #flyctl
 #remove boot menu
-# cofigure git
+# configure git
 # erlang wxwidgets
 
 # steam 
@@ -250,5 +250,3 @@ fi
 # /etc/pacman.conf
 #[multilib]
 #Include = /etc/pacman.d/mirrorlist
-
-# replace bashrc
