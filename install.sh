@@ -29,6 +29,9 @@ packages_pacman=(
     wxwidgets-gtk3
     mesa
     libgl
+    libxml2
+    libnotify
+    freeglut
     fop
     libxslt
     blueman
@@ -38,6 +41,8 @@ packages_pacman=(
     godot
     grim
     gzip
+    gtk3
+    glu
     hypridle
     hyprlock
     hyprpaper
@@ -52,6 +57,7 @@ packages_pacman=(
     noto-fonts
     nwg-look
     openrgb
+    pam
     pavucontrol
     pipewire
     playerctl
@@ -122,7 +128,7 @@ for package in "${packages_pacman[@]}"; do
     if pacman -Q "$package" &> /dev/null; then
         echo -e "${GREEN}[INFO] $package is already installed.${NO_COLOR}"
     else
-        echo -e "${YELLOW}[INFO] Installing $package...${NO_COLOR}"
+        echo -e "${NO_COLOR}[INFO] Installing $package...${NO_COLOR}"
         if sudo pacman -S --needed --noconfirm "$package" &> /dev/null; then
             echo -e "${GREEN}[INFO] $package installed successfully.${NO_COLOR}"
         else
@@ -155,7 +161,7 @@ if command -v yay &> /dev/null; then
         if yay -Q "$package" &> /dev/null; then
             echo -e "${GREEN}[INFO] $package is already installed.${NO_COLOR}"
         else
-            echo -e "${YELLOW}[INFO] Installing $package...${NO_COLOR}"
+            echo -e "${NO_COLOR}[INFO] Installing $package...${NO_COLOR}"
             if yay -S --needed --noconfirm "$package" &> /dev/null; then
                 echo -e "${GREEN}[INFO] $package installed successfully.${NO_COLOR}"
             else
@@ -174,7 +180,7 @@ if curl -fsSL https://mise.run | sh; then
     if ! grep -q "mise" ~/.bashrc; then
       echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
       source ~/.bashrc 
-      echo "[INFO] mise added to bashrc."
+      echo -e "${GREEN}[INFO] Mise added to bashrc.${NO_COLOR}"
     else
       echo "${YELLOW}[INFO] mise already configured in bashrc."
     fi
@@ -183,22 +189,22 @@ else
 fi
 
 # Install all core tools with mise
-echo "[INFO] Installing core tools via mise..."
+echo -e "${NO_COLOR}[INFO] Installing core tools via mise...${NO_COLOR}"
 
 for tool in "${mise_core_tools[@]}"; do
-    echo "[INFO] Installing $tool..."
+    echo -e "${NO_COLOR}[INFO] Installing $tool...${NO_COLOR}"
     
     if mise install "$tool"; then
-        echo "[SUCCESS] $tool installed successfully"
+        echo -e "${GREEN}[INFO] $tool installed successfully.${NO_COLOR}"
         
         # Set as global default
         if mise use --global "$tool"; then
-            echo "[SUCCESS] $tool set as global default"
+            echo -e "${GREEN}[INFO] $tool set as global default.${NO_COLOR}"
         else
-            echo "[WARNING] $tool installed but could not set as global default"
+            echo -e "${YELLOW}[WARNING] $tool installed but could not set as global default.${NO_COLOR}"
         fi
     else
-        echo "[ERROR] Failed to install $tool"
+        echo -e "${RED}[ERROR] Failed to install $tool.${NO_COLOR}"
     fi
 done
 
@@ -218,7 +224,7 @@ echo -e "${GREEN}[INFO] $All core tools installed successfull.${NO_COLOR}"
 
 # Installing Rust
 echo -e "${NO_COLOR}[INFO] Installing Rust...${NO_COLOR}"
-if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh; then
+if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; then
   echo -e "${GREEN}[INFO] Rust installation completed.${NO_COLOR}"
 else
   echo -e "${RED}[ERROR] Rust installation failed.${NO_COLOR}"
