@@ -22,11 +22,14 @@ NO_COLOR='\e[0m'
 packages_pacman=(
     git
     base-devel
+    gstreamer
     ncurses
     openssl
     libssh
     unixodbc
     wxwidgets-gtk3
+    webkit2gtk
+    gst-plugins-base
     mesa
     libgl
     libxml2
@@ -148,8 +151,8 @@ else
     git clone "$yay_repo_url" "$temp_dir/yay" &> /dev/null
     cd "$temp_dir/yay" && makepkg -si --noconfirm &> /dev/null
     yay -Y --gendb 
-    yay -Syu --devel 
-    yay -Y --nocleanafter --noremovemake --sudoloop --save 
+    yay -Syu --devel --noconfirm 
+    yay -Y --noremovemake --sudoloop --save 
     cd && rm -rf "$temp_dir/yay"
     echo -e "${GREEN}[INFO] yay installation completed.${NO_COLOR}"
 fi
