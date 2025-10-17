@@ -231,7 +231,7 @@ if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
     for dir in */; do
         if [ -d "$dir" ]; then
             echo "${NO_COLOR}[INFO] Installing dotfiles from: ${dir%/}${NO_COLOR}"
-            stow "${dir%/}" --adopt
+            stow --override "${dir%/}" 
         fi
     done
     echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
