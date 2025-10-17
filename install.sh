@@ -13,6 +13,10 @@ yay_repo_url="https://aur.archlinux.org/yay.git"
 dotfiles_repo_url="https://github.com/FabriDamazio/dotfiles.git"
 temp_dir="temp"
 
+# ollama configuration
+install_ollama_model=true
+ollama_model="qwen3-coder"
+
 # Terminal colors
 RED='\e[1;91m'
 GREEN='\e[1;92m'
@@ -257,6 +261,7 @@ else
     echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
 fi
 
+# Enable Waybar service
 echo -e "${NO_COLOR}[INFO] Enabling Waybar service...${NO_COLOR}"
 if systemctl --user enable --now waybar.service; then
   echo -e "${GREEN}[INFO] Waybar service enabled successfully.${NO_COLOR}"
@@ -264,8 +269,36 @@ else
   echo -e "${RED}[ERROR] Waybar service enable failed.${NO_COLOR}"
 fi
 
+# Installing Ollama
+echo -e "${NO_COLOR}[INFO] Installing Ollama...${NO_COLOR}"
+if curl -fsSL https://ollama.ai/install.sh | sh; then
+  echo -e "${GREEN}[INFO] Ollama installation completed.${NO_COLOR}"
+else
+  echo -e "${RED}[ERROR] Ollama installation failed.${NO_COLOR}"
+fi
+
+# Install Fly.io
+echo -e "${NO_COLOR}[INFO] Installing Fly.io...${NO_COLOR}"
+if curl -fsSL https://fly.io/install.sh | sh; then
+    echo -e "${GREEN}[INFO] Fly.io installation completed.${NO_COLOR}"
+else
+    echo -e "${RED}[ERROR] Fly.io installation failed.${NO_COLOR}"
+fi
+
+# Pull Ollama model if enabled
+if [ "$install_ollama_model" = true ]; then
+    echo -e "${NO_COLOR}[INFO] Pulling Ollama model: $ollama_model...${NO_COLOR}"
+    if ollama pull "$ollama_model"; then
+        echo -e "${GREEN}[INFO] Ollama model '$ollama_model' downloaded successfully.${NO_COLOR}"
+    else
+        echo -e "${RED}[ERROR] Ollama model '$ollama_model' download failed.${NO_COLOR}"
+    fi
+else
+    echo -e "${YELLOW}[INFO] Ollama model installation skipped.${NO_COLOR}"
+fi
+
+# customiza sddm
 #expert lsp
-#flyctl
 #remove boot menu
 # configure git
 
