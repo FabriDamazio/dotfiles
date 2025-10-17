@@ -27,17 +27,18 @@ packages_pacman=(
     openssl
     libssh
     unixodbc
-    wxwidgets-gtk3
     webkit2gtk
     gst-plugins-base
     mesa
     libgl
     libxml2
     libnotify
-    freeglut
     fop
     libxslt
     blueman
+    bluez
+    bluez-utils
+    bluez-deprecated-tools
     firefox
     flameshot
     gnome-disk-utility
@@ -45,7 +46,6 @@ packages_pacman=(
     grim
     gzip
     gtk3
-    glu
     hypridle
     hyprlock
     hyprpaper
@@ -74,10 +74,9 @@ packages_pacman=(
     stow
     swaync
     thunderbird
+    ttf-jetbrains-mono-nerd
     waybar
     wireplumber
-    wxwidgets-common
-    wxwidgets-gtk3
     xdg-desktop-portal-gtk
     xdg-desktop-portal-hyprland
     zed
@@ -94,6 +93,7 @@ mise_core_tools=(
     java@openjdk-21
     erlang@28.1
     elixir@1.19.0-otp-28
+    dotnet
   )
 
 ##############################################################################
@@ -240,12 +240,20 @@ else
     echo "${RED}[ERROR] Failed to clone dotfiles.${NO_COLOR}" >&2
 fi
 
+# Applying GTK Theme
+echo -e "${NO_COLOR}[INFO] Applying Catppuccin Mocha Sapphire theme...${NO_COLOR}"
+if gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-sapphire-standard+default" && \
+   gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'; then
+  echo -e "${GREEN}[INFO] Theme applied successfully.${NO_COLOR}"
+else
+  echo -e "${RED}[ERROR] Failed to apply theme.${NO_COLOR}"
+fi
+
 #expert lsp
 #flyctl
 #remove boot menu
 # configure git
 # erlang wxwidgets
-# set gtk theme to catppuccin-gtk-theme-mocha
 
 # steam 
 # needs enable multilib on pacman
