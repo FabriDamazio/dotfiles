@@ -147,9 +147,9 @@ else
     sudo pacman -S --needed --noconfirm git base-devel &> /dev/null
     git clone "$yay_repo_url" "$temp_dir/yay" &> /dev/null
     cd "$temp_dir/yay" && makepkg -si --noconfirm &> /dev/null
-    yay -Y --gendb &> /dev/null 
-    yay -Syu --devel &> /dev/null
-    yay -Y --nocleanafter --noremovemake --sudoloop --save &> /dev/null
+    yay -Y --gendb 
+    yay -Syu --devel 
+    yay -Y --nocleanafter --noremovemake --sudoloop --save 
     cd && rm -rf "$temp_dir/yay"
     echo -e "${GREEN}[INFO] yay installation completed.${NO_COLOR}"
 fi
@@ -179,11 +179,15 @@ if curl -fsSL https://mise.run | sh; then
     echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
     if ! grep -q "mise" ~/.bashrc; then
       echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
-      source ~/.bashrc 
       echo -e "${GREEN}[INFO] Mise added to bashrc.${NO_COLOR}"
     else
       echo "${YELLOW}[INFO] mise already configured in bashrc."
     fi
+
+    # IMPORTANT: activate mise
+    export PATH="$HOME/.local/bin:$PATH"
+    eval "$(~/.local/bin/mise activate bash)"
+    echo -e "${GREEN}[INFO] Mise activated in current session.${NO_COLOR}"
 else
     echo -e "${RED}[ERROR] Mise installation failed.${NO_COLOR}"
 fi
@@ -208,18 +212,6 @@ for tool in "${mise_core_tools[@]}"; do
     fi
 done
 
-echo -e "${NO_COLOR}[INFO] Veryfing installation...${NO_COLOR}"
-
-for tool in "${mise_core_tools[@]}"; do
-    tool_name=$(echo "$tool" | cut -d'@' -f1)
-    
-    if mise exec "$tool_name" --version; then
-        echo -e "${GREEN}[INFO] $tool verification passed.${NO_COLOR}"
-    else
-        echo -e "${RED}[ERROR] $tool verification failed.${NO_COLOR}"
-    fi
-done
-
 echo -e "${GREEN}[INFO] $All core tools installed successfull.${NO_COLOR}"
 
 # Installing Rust
@@ -228,6 +220,14 @@ if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; then
   echo -e "${GREEN}[INFO] Rust installation completed.${NO_COLOR}"
 else
   echo -e "${RED}[ERROR] Rust installation failed.${NO_COLOR}"
+fi
+
+# Configuring dotfiles
+echo "${NO_COLOR}[INFO] Cloning dotfiles repository...${NO_COLOR}"
+if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
+    stow . && echo "${GREEN}[SUCCESS] Dotfiles configured${NO_COLOR}"
+else
+    echo "${RED}[ERROR] Failed to clone dotfiles${NO_COLOR}" >&2
 fi
 
 #expert lsp
