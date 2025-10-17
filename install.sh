@@ -1,10 +1,90 @@
 # Installation script
 
+# On Arch Linux
+# ---- setting keymaps:
+# loadkeys br-abnt
+# ---- list the disks:
+# fdisk -l
+# ---- creating partitions:
+# fdisk <YOUR_BLOCK_DEVICE>
+# n (to create new partition)
+# t (to change partition type)
+# ---- create 3 partitions:
+# 1 - 1Gb size - EF (uefi) - for boot
+# 2 - 50gb - 83 (linux Ext4) - for root
+# 3 - the rest - 83 (linux Ext4) - for home
+# ---- formating disks
+# mkfs.fat -F32 <BOOT PARTITION> (e.g /dev/sda1)
+# mkfs.ext4 <ROOT PARTITION>
+# mkfs.ext4 <HOME PARTITION>
+# ---- mouting partitions
+# mount <ROOT PARTITION> /mnt
+# mount --mkdir <BOOT PARTITION> /mnt/boot
+# mount --mkdir <HOME PARTITION> /mnt/home
+# ---- internet connection (just for WIFI, ethernet skip it)
+# iwctl
+# station list # this will show youre wireless cards usually it will be wlan0
+# station wlan0 get-networks
+# station wlan0 connect YOUR_WIFI_NETWORK
+# enter the password when prompted
+# you should be connected soon
+# press CTRL C to leave
+# ---- install the base system
+# pacman -Syy
+# pacstrap -K /mnt base linux linux-firmware
+# ---- enter the new system
+# arch-chroot /mnt
+# ---- generate the swapfile
+# mkswap -U clear --size 16G --file /swapfile
+# swapon /swapfile
+# ---- exit the system
+# exit
+# ---- generate the FSTAB file
+# genfstab -U /mnt >> /mnt/etc/fstab
+# ---- back to system
+# arch-chroot /mnt
+# ---- installing pacman packages
+# pacman -S sudo vi iwd dhcpcd networkmanager 
+# ---- setting timezone
+# timedatectl set-timezone America/Sao_Paulo
+# ---- setting clock
+# hwclock --systohc
+# timedatectl set-ntp true
+# ---- locales (uncomment us,pt_BR, ja_JP and  ZN_ch)
+# vi /etc/locale.gen
+# locale-gen
+# echo LANG=en_US.UTF-8 > /etc/locale.conf
+# ---- setting hostname
+# echo archlinux > /etc/hostname
+# ---- root password
+# passwd
+# ---- account setup
+# useradd -m fabri
+# passwd fabri
+# usermod -aG wheel,audio,video,storage fabri 
+# visudo
+# ##uncomment the line starting with %wheel
+# --- bootloader
+# pacman -S grub efibootmgr
+# grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot <BOOT PARTITION>
+# grub-mkconfig -o /boot/grub/grub.cfg
+# ---- enable services
+# systemctl enable dhcpcd
+# systemctl enable NetworkManager
+# systemctl enable iwd
+# --- unmount disks
+# umount /mnt/boot
+# umount /mnt
+# ---- reboot
+# reboot now
+
+
 # Download this script
-# wget https://raw.githubusercontent.com/FabriDamazio/dotfiles/master/install.sh
+# curl -O https://raw.githubusercontent.com/FabriDamazio/dotfiles/master/install.sh
 
 # Make executable
 # chmod +x install.sh
+# ./.install.sh
 
 ##############################################################################
 # VARIABLES                                                                  #
@@ -14,7 +94,7 @@ dotfiles_repo_url="https://github.com/FabriDamazio/dotfiles.git"
 temp_dir="temp"
 
 # ollama configuration
-install_ollama_model=true
+install_ollama_model=false
 ollama_model="qwen3-coder"
 
 # Terminal colors
@@ -24,6 +104,33 @@ YELLOW='\e[1;93m'
 NO_COLOR='\e[0m'
 
 packages_pacman=(
+    amd-ucode
+    fastfetch
+  	nano
+		vim
+		openssh
+		htop
+		wget
+		iwd
+		wireless_tools
+		wpa_supplicant
+		smartmontools
+		xdg-utils
+    hyprland
+    xorg
+		dunst
+		kitty
+		uwsm
+		xdg-desktop-portal-hyprland
+		qt5-wayland
+		qt6-wayland
+	  grim
+		slurp
+    lib32-nvidia-utils
+    libva-nvidia-driver  
+    linux-firmware-nvidia
+    nvidia-open-dkms
+    nvidia-utils
     git
     base-devel
     gstreamer
@@ -47,7 +154,6 @@ packages_pacman=(
     flameshot
     gnome-disk-utility
     godot
-    grim
     gzip
     gtk3
     hypridle
@@ -67,9 +173,9 @@ packages_pacman=(
     pam
     pavucontrol
     pipewire
+    pipewire-audio
+    pipewire-pulse
     playerctl
-    qt5-wayland
-    qt6-wayland
     ripgrep
     rofi
     sddm
@@ -82,7 +188,6 @@ packages_pacman=(
     waybar
     wireplumber
     xdg-desktop-portal-gtk
-    xdg-desktop-portal-hyprland
     zed
 )
 
@@ -111,14 +216,6 @@ if ! ping -c 1 8.8.8.8 -q &> /dev/null; then
   exit 1
 else
   echo -e "${GREEN}[INFO] Internet connection verified.${NO_COLOR}"
-fi
-# Check if wget is installed
-if ! command -v wget &> /dev/null; then
-  echo -e "${RED}[ERROR] wget is not installed.${NO_COLOR}"
-  echo -e "${NO_COLOR}[INFO] Installing wget...${NO_COLOR}"
-  sudo pacman -S --noconfirm wget
-else
-  echo -e "${GREEN}[INFO] wget is already installed.${NO_COLOR}"
 fi
 # Update pacman database
 echo -e "${NO_COLOR}[INFO] Updating pacman database...${NO_COLOR}"
@@ -253,6 +350,14 @@ else
   echo -e "${RED}[ERROR] Failed to apply theme.${NO_COLOR}"
 fi
 
+# Enable SDDM service
+echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
+if sudo systemctl enable --now sddm; then
+    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
+else
+    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
+fi
+
 # Enable Bluetooth service
 echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
 if sudo systemctl enable --now bluetooth.service; then
@@ -285,8 +390,12 @@ else
     echo -e "${RED}[ERROR] Fly.io installation failed.${NO_COLOR}"
 fi
 
-# Pull Ollama model if enabled
-if [ "$install_ollama_model" = true ]; then
+# Pull Ollama model with user prompt
+echo -e "${YELLOW}[QUESTION] Do you want to pull the Ollama model: $ollama_model? (y/N)${NO_COLOR}"
+read -r response
+
+# Convert response to lowercase and check - assume N for anything other than y/yes/sim/s
+if [[ "${response,,}" =~ ^(yes|y|sim|s)$ ]]; then
     echo -e "${NO_COLOR}[INFO] Pulling Ollama model: $ollama_model...${NO_COLOR}"
     if ollama pull "$ollama_model"; then
         echo -e "${GREEN}[INFO] Ollama model '$ollama_model' downloaded successfully.${NO_COLOR}"
@@ -297,6 +406,7 @@ else
     echo -e "${YELLOW}[INFO] Ollama model installation skipped.${NO_COLOR}"
 fi
 
+# init sound on startup
 # customiza sddm
 #expert lsp
 #remove boot menu
