@@ -234,7 +234,7 @@ if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
             stow --adopt "${dir%/}" 
         fi
     done
-    git --reset hard
+    git reset --hard
     echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
 else
     echo "${RED}[ERROR] Failed to clone dotfiles.${NO_COLOR}" >&2
