@@ -228,16 +228,15 @@ fi
 # Configuring dotfiles
 echo "${NO_COLOR}[INFO] Cloning dotfiles repository...${NO_COLOR}"
 if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
-    # Loop através de todas as pastas e aplicar stow em cada uma
     for dir in */; do
         if [ -d "$dir" ]; then
             echo "${NO_COLOR}[INFO] Installing dotfiles from: ${dir%/}${NO_COLOR}"
-            stow "${dir%/}"
+            stow "${dir%/} --adopt"
         fi
     done
-    echo "${GREEN}[SUCCESS] All dotfiles configured${NO_COLOR}"
+    echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
 else
-    echo "${RED}[ERROR] Failed to clone dotfiles${NO_COLOR}" >&2
+    echo "${RED}[ERROR] Failed to clone dotfiles.${NO_COLOR}" >&2
 fi
 
 #expert lsp
