@@ -350,14 +350,6 @@ else
   echo -e "${RED}[ERROR] Failed to apply theme.${NO_COLOR}"
 fi
 
-# Enable SDDM service
-echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
-if sudo systemctl enable --now sddm; then
-    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
-else
-    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
-fi
-
 # Enable Bluetooth service
 echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
 if sudo systemctl enable --now bluetooth.service; then
@@ -404,6 +396,14 @@ if [[ "${response,,}" =~ ^(yes|y|sim|s)$ ]]; then
     fi
 else
     echo -e "${YELLOW}[INFO] Ollama model installation skipped.${NO_COLOR}"
+fi
+
+# Enable SDDM service
+echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
+if sudo systemctl enable --now sddm; then
+    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
+else
+    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
 fi
 
 # init sound on startup
