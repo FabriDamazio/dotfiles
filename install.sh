@@ -231,9 +231,10 @@ if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
     for dir in */; do
         if [ -d "$dir" ]; then
             echo "${NO_COLOR}[INFO] Installing dotfiles from: ${dir%/}${NO_COLOR}"
-            stow --override "${dir%/}" 
+            stow --adopt "${dir%/}" 
         fi
     done
+    git --reset hard
     echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
 else
     echo "${RED}[ERROR] Failed to clone dotfiles.${NO_COLOR}" >&2
@@ -244,6 +245,7 @@ fi
 #remove boot menu
 # configure git
 # erlang wxwidgets
+# set gtk theme to catppuccin-gtk-theme-mocha
 
 # steam 
 # needs enable multilib on pacman
