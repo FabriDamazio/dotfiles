@@ -249,11 +249,25 @@ else
   echo -e "${RED}[ERROR] Failed to apply theme.${NO_COLOR}"
 fi
 
+# Enable Bluetooth service
+echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
+if sudo systemctl enable --now bluetooth.service; then
+    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
+else
+    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
+fi
+
+echo -e "${NO_COLOR}[INFO] Enabling Waybar service...${NO_COLOR}"
+if systemctl --user enable --now waybar.service; then
+  echo -e "${GREEN}[INFO] Waybar service enabled successfully.${NO_COLOR}"
+else
+  echo -e "${RED}[ERROR] Waybar service enable failed.${NO_COLOR}"
+fi
+
 #expert lsp
 #flyctl
 #remove boot menu
 # configure git
-# erlang wxwidgets
 
 # steam 
 # needs enable multilib on pacman
