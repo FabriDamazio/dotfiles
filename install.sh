@@ -92,6 +92,7 @@
 yay_repo_url="https://aur.archlinux.org/yay.git"
 dotfiles_repo_url="https://github.com/FabriDamazio/dotfiles.git"
 temp_dir="temp"
+sddm_themes_url="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/refs/heads/master/setup.sh"
 
 # ollama configuration
 install_ollama_model=false
@@ -152,6 +153,7 @@ packages_pacman=(
     firefox
     flameshot
     gnome-disk-utility
+    gnome-boxes
     godot
     gzip
     gtk3
@@ -389,6 +391,20 @@ else
     echo -e "${RED}[ERROR] Fly.io installation failed.${NO_COLOR}"
 fi
 
+# Configuring SDDM theme
+echo "${NO_COLOR}[INFO] Cloning SDDM theme repository...${NO_COLOR}"
+if git clone -q $sddm_themes_url && cd sddm-fabri-themes; then
+    echo "${NO_COLOR}[INFO] Running SDDM theme setup script...${NO_COLOR}"
+    if chmod +x setup.sh && ./setup.sh; then
+        echo "${GREEN}[INFO] SDDM theme installed successfully.${NO_COLOR}"
+    else
+        echo "${RED}[ERROR] SDDM theme setup failed.${NO_COLOR}" >&2
+    fi
+    cd ..
+else
+    echo "${RED}[ERROR] Failed to clone SDDM theme repository.${NO_COLOR}" >&2
+fi
+
 # Pull Ollama model with user prompt
 echo -e "${YELLOW}[QUESTION] Do you want to pull the Ollama model: $ollama_model? (y/N)${NO_COLOR}"
 read -r response
@@ -413,8 +429,7 @@ else
     echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
 fi
 
-# init sound on startup
-# customiza sddm
+
 #expert lsp
 #remove boot menu
 # configure git
