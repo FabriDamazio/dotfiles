@@ -92,7 +92,7 @@
 yay_repo_url="https://aur.archlinux.org/yay.git"
 dotfiles_repo_url="https://github.com/FabriDamazio/dotfiles.git"
 temp_dir="temp"
-sddm_themes_url="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/refs/heads/master/setup.sh"
+sddm_themes_url="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/master/setup.sh"
 
 # ollama configuration
 install_ollama_model=false
@@ -393,14 +393,13 @@ fi
 
 # Configuring SDDM theme
 echo "${NO_COLOR}[INFO] Cloning SDDM theme repository...${NO_COLOR}"
-if git clone -q $sddm_themes_url && cd sddm-fabri-themes; then
-    echo "${NO_COLOR}[INFO] Running SDDM theme setup script...${NO_COLOR}"
-    if chmod +x setup.sh && ./setup.sh; then
-        echo "${GREEN}[INFO] SDDM theme installed successfully.${NO_COLOR}"
-    else
-        echo "${RED}[ERROR] SDDM theme setup failed.${NO_COLOR}" >&2
-    fi
-    cd ..
+if curl -fsSL $sddm_themes_url | sh; then
+  echo "${NO_COLOR}[INFO] Running SDDM theme setup script...${NO_COLOR}"
+  if chmod +x setup.sh && ./setup.sh; then
+      echo "${GREEN}[INFO] SDDM theme installed successfully.${NO_COLOR}"
+  else
+      echo "${RED}[ERROR] SDDM theme setup failed.${NO_COLOR}" >&2
+  fi
 else
     echo "${RED}[ERROR] Failed to clone SDDM theme repository.${NO_COLOR}" >&2
 fi
