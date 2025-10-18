@@ -126,7 +126,6 @@ packages_pacman=(
 		qt6-wayland
 	  grim
 		slurp
-    lib32-nvidia-utils
     libva-nvidia-driver  
     linux-firmware-nvidia
     nvidia-open-dkms
@@ -352,7 +351,7 @@ fi
 
 # Enable Bluetooth service
 echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
-if sudo systemctl enable --now bluetooth.service; then
+if sudo systemctl enable bluetooth; then
     echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
 else
     echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
@@ -360,10 +359,18 @@ fi
 
 # Enable Waybar service
 echo -e "${NO_COLOR}[INFO] Enabling Waybar service...${NO_COLOR}"
-if systemctl --user enable --now waybar.service; then
+if systemctl --user enable waybar; then
   echo -e "${GREEN}[INFO] Waybar service enabled successfully.${NO_COLOR}"
 else
   echo -e "${RED}[ERROR] Waybar service enable failed.${NO_COLOR}"
+fi
+
+# Enable pipewire-pulse service
+echo -e "${NO_COLOR}[INFO] Enabling pipewire-pulse service...${NO_COLOR}"
+if systemctl --user enable pipewire-pulse; then
+  echo -e "${GREEN}[INFO] pipewire-pulse service enabled successfully.${NO_COLOR}"
+else
+  echo -e "${RED}[ERROR] pipewire-pulse service enable failed.${NO_COLOR}"
 fi
 
 # Installing Ollama
@@ -400,7 +407,7 @@ fi
 
 # Enable SDDM service
 echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
-if sudo systemctl enable --now sddm; then
+if sudo systemctl enable sddm; then
     echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
 else
     echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
@@ -414,6 +421,7 @@ fi
 
 # steam 
 # needs enable multilib on pacman
+# install pacman lib32-nvidia-utils (needs multilib)
 # /etc/pacman.conf
 #[multilib]
 #Include = /etc/pacman.d/mirrorlist
