@@ -428,14 +428,43 @@ else
     echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
 fi
 
+# Enable multilib repository
+echo "${NO_COLOR}[INFO] Enabling multilib repository...${NO_COLOR}"
+if sudo sed -i '/^#\[multilib\]/s/^#//; /^#Include = \/etc\/pacman.d\/mirrorlist/s/^#//' /etc/pacman.conf; then
+    echo "${GREEN}[INFO] Multilib repository enabled successfully.${NO_COLOR}"
+    
+    # Update package database
+    echo "${NO_COLOR}[INFO] Updating package database...${NO_COLOR}"
+    if sudo pacman -Sy; then
+        echo "${GREEN}[INFO] Package database updated with multilib.${NO_COLOR}"
+    else
+        echo "${RED}[ERROR] Failed to update package database.${NO_COLOR}" >&2
+    fi
+else
+    echo "${RED}[ERROR] Failed to enable multilib repository.${NO_COLOR}" >&2
+fi
+
+# Install Steam with NVIDIA support
+echo "${NO_COLOR}[INFO] Installing Steam with NVIDIA support...${NO_COLOR}"
+if sudo pacman -S --noconfirm steam steam-native-runtime; then
+    echo "${GREEN}[INFO] Steam installed successfully.${NO_COLOR}"
+    
+    # Install NVIDIA gaming dependencies
+    echo "${NO_COLOR}[INFO] Installing NVIDIA gaming dependencies...${NO_COLOR}"
+    if sudo pacman -S --noconfirm \
+        lib32-nvidia-utils \
+        nvidia-utils \
+        lib32-vulkan-icd-loader \
+        vulkan-icd-loader; then
+        
+        echo "${GREEN}[INFO] NVIDIA gaming dependencies installed successfully.${NO_COLOR}"
+    else
+        echo "${YELLOW}[WARNING] Some NVIDIA dependencies failed to install.${NO_COLOR}" >&2
+    fi
+else
+    echo "${RED}[ERROR] Steam installation failed.${NO_COLOR}" >&2
+fi
 
 #expert lsp
 #remove boot menu
 # configure git
-
-# steam 
-# needs enable multilib on pacman
-# install pacman lib32-nvidia-utils (needs multilib)
-# /etc/pacman.conf
-#[multilib]
-#Include = /etc/pacman.d/mirrorlist
