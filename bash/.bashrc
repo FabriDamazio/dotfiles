@@ -22,3 +22,6 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 # fly io cli
 export FLYCTL_INSTALL="/home/fabri/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+# ollama models
+export OLLAMA_MODELS="$HOME/Models"
