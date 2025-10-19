@@ -496,7 +496,7 @@ else
 fi
 
 # Remove GRUB boot menu
-if ! command -v grub-mkconfig &> /dev/null; then
+if command -v grub-mkconfig &> /dev/null; then
   log_message "INFO" "Configuring GRUB for automatic boot without menu..."
   
   # Backup grub file
@@ -518,7 +518,7 @@ if ! command -v grub-mkconfig &> /dev/null; then
   
   # Generate new GRUB configuration
   log_message "INFO" "Generating new GRUB configuration..."
-  if sudo grub-mkconfig -o /mnt/boot/grub/grub.cfg; then
+  if sudo grub-mkconfig -o /boot/grub/grub.cfg; then
       log_message "SUCCESS" "GRUB boot menu removed successfully"
   else
       log_message "ERROR" "Failed to generate GRUB configuration"
