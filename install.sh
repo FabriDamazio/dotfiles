@@ -427,16 +427,11 @@ else
 fi
 
 # Configuring SDDM theme
-log_message "INFO" "Cloning SDDM theme repository"
+log_message "INFO" "Configuring SDDM theme"
 if curl -fsSL $SDDM_THEMES_URL | sh; then
-  log_message "INFO" "Running SDDM theme setup script..."
-  if chmod +x setup.sh && ./setup.sh; then
-      log_message "SUCCESS" "SDDM theme installed successfully"
-  else
-      log_message "ERROR" "SDDM theme setup failed"
-  fi
+    log_message "SUCCESS" "SDDM theme installed successfully"
 else
-    log_message "ERROR" "Failed to clone SDDM theme repository"
+    log_message "ERROR" "Failed to configure SDDM theme"
 fi
 
 # Pull Ollama model with user prompt
