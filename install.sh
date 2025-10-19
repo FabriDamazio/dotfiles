@@ -89,14 +89,17 @@
 ##############################################################################
 # VARIABLES                                                                  #
 ##############################################################################
-yay_repo_url="https://aur.archlinux.org/yay.git"
-dotfiles_repo_url="https://github.com/FabriDamazio/dotfiles.git"
-temp_dir="temp"
-sddm_themes_url="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/master/setup.sh"
+YAY_REPO_URL="https://aur.archlinux.org/yay.git"
+DOTFILES_REPO_URL="https://github.com/FabriDamazio/dotfiles.git"
+TEMP_DIR="temp"
+SDDM_THEMES_URL="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/master/setup.sh"
+LOG_FILE="$HOME/installation.log"
+GIT_USERNAME="fabridamazio"
+GIT_EMAIL="fabridamazio@gmail.com"
 
 # ollama configuration
-install_ollama_model=false
-ollama_model="qwen3-coder"
+INSTALL_OLLAMA_MODEL=false
+OLLAMA_MODEL="qwen3-coder"
 
 # Terminal colors
 RED='\e[1;91m'
@@ -104,7 +107,7 @@ GREEN='\e[1;92m'
 YELLOW='\e[1;93m'
 NO_COLOR='\e[0m'
 
-packages_pacman=(
+PACKAGES_PACMAN=(
     amd-ucode
     fastfetch
   	nano
@@ -192,327 +195,357 @@ packages_pacman=(
     zed
 )
 
-packages_yay=(
+PACKAGES_YAY=(
     catppuccin-gtk-theme-mocha
     neovim-git
     mpdris2-rs
     vial-appimage
 )
 
-mise_core_tools=(
+MISE_TOOLS=(
     java@openjdk-21
     erlang@28.1
     elixir@1.19.0-otp-28
     dotnet
   )
 
+# log messages function
+log_message() {
+    local level="$1"
+    local message="$2"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    local log_entry="[$timestamp] [$level] $message"
+    
+    # Escrever no arquivo
+    echo "$log_entry" >> "$LOG_FILE"
+    
+    # Mostrar no terminal com cores
+    case $level in
+        "SUCCESS") echo -e "${GREEN}$log_entry${NO_COLOR}" ;;
+        "ERROR") echo -e "${RED}$log_entry${NO_COLOR}" ;;
+        "WARNING") echo -e "${YELLOW}$log_entry${NO_COLOR}" ;;
+        "INFO") echo -e "${NO_COLOR}$log_entry${NO_COLOR}" ;;
+        *) echo "$log_entry" ;;
+    esac
+}
+
 ##############################################################################
 # PRE INSTALLATION                                                           #
 ##############################################################################
 
+# Create the log file
+if sudo touch "$LOG_FILE" && sudo chown $USER:$USER "$LOG_FILE"; then
+    log_message "SUCCESS" "Log file setup completed"
+    
+    if echo "$(date): Test log entry" >> "$LOG_FILE"; then
+        log_message "SUCCESS" "Log file is writable"
+        log_message "INFO" "Log file location: $LOG_FILE"
+    else
+        log_message "ERROR" "Cannot wrute to log file"
+    fi
+else
+    log_message "ERROR" "Log file setup failed"
+fi
+
 # Check internet connection 
-echo -e "${NO_COLOR}[INFO] Checking internet connection...${NO_COLOR}"
+log_message "INFO" "Checking internet connection..."
 if ! ping -c 1 8.8.8.8 -q &> /dev/null; then
-  echo -e "${RED}[ERROR] Unable to reach the internet.${NO_COLOR}"
+  log_message "ERROR" "Unable to reach the internet"
   exit 1
 else
-  echo -e "${GREEN}[INFO] Internet connection verified.${NO_COLOR}"
+  log_message "SUCCESS" "Internet connection verified"
 fi
 # Update pacman database
-echo -e "${NO_COLOR}[INFO] Updating pacman database...${NO_COLOR}"
+log_message "INFO" "Updating pacman database"
 sudo pacman -Sy --noconfirm &> /dev/null
-echo -e "${GREEN}[INFO] Pacman database updated.${NO_COLOR}"
+log_message "SUCCESS" "Pacman database updated"
 
 ##############################################################################
-# INSTALL PACKAGES                                                           #
+# INSTALL PACKAGES AND CONFIGURING                                           #
 ##############################################################################
 
 # Installing pacman packages
-echo -e "${NO_COLOR}[INFO] Installing pacman packages...${NO_COLOR}"
-for package in "${packages_pacman[@]}"; do
+log_message "INFO" "Installing pacman packages"
+for package in "${PACKAGES_PACMAN[@]}"; do
     if pacman -Q "$package" &> /dev/null; then
-        echo -e "${GREEN}[INFO] $package is already installed.${NO_COLOR}"
+        log_message "INFO" "$package is already installed"
     else
-        echo -e "${NO_COLOR}[INFO] Installing $package...${NO_COLOR}"
+        log_message "INFO" "Installing $package..."
         if sudo pacman -S --needed --noconfirm "$package" &> /dev/null; then
-            echo -e "${GREEN}[INFO] $package installed successfully.${NO_COLOR}"
+            log_message "SUCCESS" "$package installed successfully"
         else
-            echo -e "${RED}[ERROR] Installation failed for $package. Check package name and internet connection.${NO_COLOR}"
+            log_message "ERROR" "Installation failed for $package. Check package name and internet connection"
         fi
     fi
 done
 
 # Installing yay
-echo -e "${NO_COLOR}[INFO] Installing yay...${NO_COLOR}"
+log_message "INFO" "Installation yay..."
 
 if command -v yay &> /dev/null; then
-    echo -e "${GREEN}[INFO] yay already installed.${NO_COLOR}"
+    log_message "SUCCESS" "yay already installed"
 else
-    [[ ! -d "$temp_dir" ]] && mkdir -p "$temp_dir"
+    [[ ! -d "$TEMP_DIR" ]] && mkdir -p "$TEMP_DIR"
     sudo pacman -S --needed --noconfirm git base-devel &> /dev/null
-    git clone "$yay_repo_url" "$temp_dir/yay" &> /dev/null
-    cd "$temp_dir/yay" && makepkg -si --noconfirm &> /dev/null
+    git clone "$YAY_REPO_URL" "$TEMP_DIR/yay" &> /dev/null
+    cd "$TEMP_DIR/yay" && makepkg -si --noconfirm &> /dev/null
     yay -Y --gendb 
     yay -Syu --devel --noconfirm 
     yay -Y --noremovemake --sudoloop --save 
-    cd && rm -rf "$temp_dir/yay"
-    echo -e "${GREEN}[INFO] yay installation completed.${NO_COLOR}"
+    cd && rm -rf "$TEMP_DIR/yay"
+    log_message "SUCCESS" "yay installation completed"
 fi
 
 # Installing AUR packages with yay
 if command -v yay &> /dev/null; then
-    echo -e "${NO_COLOR}[INFO] Installing AUR packages...${NO_COLOR}"
-    for package in "${packages_yay[@]}"; do
+    log_message "INFO" "Installation AUR packages..."
+    for package in "${PACKAGES_YAY[@]}"; do
         if yay -Q "$package" &> /dev/null; then
-            echo -e "${GREEN}[INFO] $package is already installed.${NO_COLOR}"
+            log_message "SUCCESS" "$package is already installed"
         else
-            echo -e "${NO_COLOR}[INFO] Installing $package...${NO_COLOR}"
+            log_message "INFO" "Installing $package..."
             if yay -S --needed --noconfirm "$package" &> /dev/null; then
-                echo -e "${GREEN}[INFO] $package installed successfully.${NO_COLOR}"
+                log_message "SUCCESS" "$package installed successfully"
             else
-                echo -e "${RED}[ERROR] Installation failed for $package.${NO_COLOR}"
+                log_message "ERROR" "Installation failed for $package"
             fi
         fi
     done
 else
-    echo -e "${YELLOW}[WARNING] yay not found. Skipping AUR packages.${NO_COLOR}"
+    log_message "WARNING" "yay not found. Skipping AUR packages"
 fi
 
 # Installing mise
-echo -e "${NO_COLOR}[INFO] Installing mise...${NO_COLOR}"
+log_message "INFO" "Installing mise..."
 if curl -fsSL https://mise.run | sh; then
-    echo -e "${GREEN}[INFO] Mise installation completed.${NO_COLOR}"
+    log_message "SUCCESS" "Mise installation completed"
     if ! grep -q "mise" ~/.bashrc; then
       echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
-      echo -e "${GREEN}[INFO] Mise added to bashrc.${NO_COLOR}"
+      log_message "SUCCESS" "Mise added to bashrc"
     else
-      echo "${YELLOW}[INFO] mise already configured in bashrc."
+      log_message "SUCCESS" "Mise already configured in bashrc"
     fi
 
-    # IMPORTANT: activate mise
+    # activate mise
     export PATH="$HOME/.local/bin:$PATH"
     eval "$(~/.local/bin/mise activate bash)"
-    echo -e "${GREEN}[INFO] Mise activated in current session.${NO_COLOR}"
+    log_message "SUCCESS" "Mise activated in current session"
 else
-    echo -e "${RED}[ERROR] Mise installation failed.${NO_COLOR}"
+    log_message "ERROR" "Mise installation failed"
 fi
 
 # Install all core tools with mise
-echo -e "${NO_COLOR}[INFO] Installing core tools via mise...${NO_COLOR}"
+log_message "INFO" "Installing mise tools"
 
-for tool in "${mise_core_tools[@]}"; do
-    echo -e "${NO_COLOR}[INFO] Installing $tool...${NO_COLOR}"
+for tool in "${MISE_TOOLS[@]}"; do
+    log_message "INFO" "Installing $tool"
     
     if mise install "$tool"; then
-        echo -e "${GREEN}[INFO] $tool installed successfully.${NO_COLOR}"
+        log_message "SUCCESS" "$tool installed successfully"
         
         # Set as global default
         if mise use --global "$tool"; then
-            echo -e "${GREEN}[INFO] $tool set as global default.${NO_COLOR}"
+            log_message "SUCCESS" "$tool set as global default"
         else
-            echo -e "${YELLOW}[WARNING] $tool installed but could not set as global default.${NO_COLOR}"
+            log_message "WARNING" "$tool installed but could not set as global default"
         fi
     else
-        echo -e "${RED}[ERROR] Failed to install $tool.${NO_COLOR}"
+        log_message "ERROR" "Failed to install $tool"
     fi
 done
 
-echo -e "${GREEN}[INFO] $All core tools installed successfull.${NO_COLOR}"
-
 # Installing Rust
-echo -e "${NO_COLOR}[INFO] Installing Rust...${NO_COLOR}"
+log_message "INFO" "Installing Rust"
 if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; then
-  echo -e "${GREEN}[INFO] Rust installation completed.${NO_COLOR}"
+  log_message "SUCCESS" "Rust installation completed"
 else
-  echo -e "${RED}[ERROR] Rust installation failed.${NO_COLOR}"
+  log_message "ERROR" "Rust installation failed"
 fi
 
 # Configuring dotfiles
-echo "${NO_COLOR}[INFO] Cloning dotfiles repository...${NO_COLOR}"
-if git clone -q "$dotfiles_repo_url" && cd dotfiles; then
+log_message "INFO" "Cloning dotfiles repository..."
+if git clone -q "$DOTFILES_REPO_URL" && cd dotfiles; then
     for dir in */; do
         if [ -d "$dir" ]; then
-            echo "${NO_COLOR}[INFO] Installing dotfiles from: ${dir%/}${NO_COLOR}"
+            log_message "INFO" "Installing dotfiles from: ${dir%/}"
             stow --adopt "${dir%/}" 
         fi
     done
     git reset --hard
-    echo "${GREEN}[INFO] All dotfiles configured.${NO_COLOR}"
+    log_message "SUCCESS" "All dotfiles configured"
 else
-    echo "${RED}[ERROR] Failed to clone dotfiles.${NO_COLOR}" >&2
+    log_message "ERROR" "Failed to clone dotfiles"
 fi
 
 # Applying GTK Theme
-echo -e "${NO_COLOR}[INFO] Applying Catppuccin Mocha Sapphire theme...${NO_COLOR}"
+log_message "INFO" "Applying Catppuccin Mocha Sapphire theme..."
 if gsettings set org.gnome.desktop.interface gtk-theme "catppuccin-mocha-sapphire-standard+default" && \
    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'; then
-  echo -e "${GREEN}[INFO] Theme applied successfully.${NO_COLOR}"
+  log_message "SUCCESS" "Theme applied successfully"
 else
-  echo -e "${RED}[ERROR] Failed to apply theme.${NO_COLOR}"
+  log_message "ERROR" "Failed to apply theme"
 fi
 
 # Enable Bluetooth service
-echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
+log_message "INFO" "Enabling Bluetooth service..."
 if sudo systemctl enable bluetooth; then
-    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
+    log_message "SUCCESS" "Bluetooth service enabled successfully"
 else
-    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
+    log_message "ERROR" "Bluetooth service enable failed"
 fi
 
 # Enable Waybar service
-echo -e "${NO_COLOR}[INFO] Enabling Waybar service...${NO_COLOR}"
+log_message "INFO" "Enabling Waybar service..."
 if systemctl --user enable waybar; then
-  echo -e "${GREEN}[INFO] Waybar service enabled successfully.${NO_COLOR}"
+  log_message "SUCCESS" "Waybar service enabled successfully"
 else
-  echo -e "${RED}[ERROR] Waybar service enable failed.${NO_COLOR}"
+  log_message "ERROR" "Waybar service enable failed"
 fi
 
 # Enable pipewire-pulse service
-echo -e "${NO_COLOR}[INFO] Enabling pipewire-pulse service...${NO_COLOR}"
+log_message "INFO" "Enabling pipewire-pulse service..."
 if systemctl --user enable pipewire-pulse; then
-  echo -e "${GREEN}[INFO] pipewire-pulse service enabled successfully.${NO_COLOR}"
+  log_message "SUCCESS" "pipewire-pulse service enabled successfully"
 else
-  echo -e "${RED}[ERROR] pipewire-pulse service enable failed.${NO_COLOR}"
+  log_message "ERROR" "pipewire-pulse service enable failed"
 fi
 
 # Installing Ollama
-echo -e "${NO_COLOR}[INFO] Installing Ollama...${NO_COLOR}"
+log_message "INFO" "Installing Ollama..."
 if curl -fsSL https://ollama.ai/install.sh | sh; then
-  echo -e "${GREEN}[INFO] Ollama installation completed.${NO_COLOR}"
+  log_message "SUCCESS" "Ollama installation completed"
 else
-  echo -e "${RED}[ERROR] Ollama installation failed.${NO_COLOR}"
+  log_message "ERROR" "Ollama installation failed"
 fi
 
 # Install Fly.io
-echo -e "${NO_COLOR}[INFO] Installing Fly.io...${NO_COLOR}"
+log_message "INFO" "Installing Fly.io..."
 if curl -fsSL https://fly.io/install.sh | sh; then
-    echo -e "${GREEN}[INFO] Fly.io installation completed.${NO_COLOR}"
+    log_message "SUCCESS" "Fly.io installation completed"
 else
-    echo -e "${RED}[ERROR] Fly.io installation failed.${NO_COLOR}"
+    log_message "ERROR" "Fly.io installation failed"
 fi
 
 # Configuring SDDM theme
-echo "${NO_COLOR}[INFO] Cloning SDDM theme repository...${NO_COLOR}"
+log_message "INFO" "Cloning SDDM theme repository"
 if curl -fsSL $sddm_themes_url | sh; then
-  echo "${NO_COLOR}[INFO] Running SDDM theme setup script...${NO_COLOR}"
+  log_message "INFO" "Running SDDM theme setup script..."
   if chmod +x setup.sh && ./setup.sh; then
-      echo "${GREEN}[INFO] SDDM theme installed successfully.${NO_COLOR}"
+      log_message "SUCCESS" "SDDM theme installed successfully"
   else
-      echo "${RED}[ERROR] SDDM theme setup failed.${NO_COLOR}" >&2
+      log_message "ERROR" "SDDM theme setup failed"
   fi
 else
-    echo "${RED}[ERROR] Failed to clone SDDM theme repository.${NO_COLOR}" >&2
+    log_message "ERROR" "Failed to clone SDDM theme repository"
 fi
 
 # Pull Ollama model with user prompt
-echo -e "${YELLOW}[QUESTION] Do you want to pull the Ollama model: $ollama_model? (y/N)${NO_COLOR}"
+echo -e "${YELLOW}[QUESTION] Do you want to pull the Ollama model: $OLLAMA_MODEL? (y/N)${NO_COLOR}"
 read -r response
 
 # Convert response to lowercase and check - assume N for anything other than y/yes/sim/s
 if [[ "${response,,}" =~ ^(yes|y|sim|s)$ ]]; then
-    echo -e "${NO_COLOR}[INFO] Pulling Ollama model: $ollama_model...${NO_COLOR}"
-    if ollama pull "$ollama_model"; then
-        echo -e "${GREEN}[INFO] Ollama model '$ollama_model' downloaded successfully.${NO_COLOR}"
+    log_message "INFO" "Pulling Ollama model: $OLLAMA_MODEL..."
+    if ollama pull "$OLLAMA_MODEL"; then
+        log_message "SUCCESS" "Ollama model $OLLAMA_MODEL downloaded successfully"
     else
-        echo -e "${RED}[ERROR] Ollama model '$ollama_model' download failed.${NO_COLOR}"
+        log_message "ERROR" "Ollama model $OLLAMA_MODEL download failed"
     fi
 else
-    echo -e "${YELLOW}[INFO] Ollama model installation skipped.${NO_COLOR}"
+    log_message "WARNING" "Ollama model installation skipped"
 fi
 
 # Enable SDDM service
-echo -e "${NO_COLOR}[INFO] Enabling Bluetooth service...${NO_COLOR}"
+log_message "INFO" "Enabling Bluetooth service..."
 if sudo systemctl enable sddm; then
-    echo -e "${GREEN}[INFO] Bluetooth service enabled successfully.${NO_COLOR}"
+    log_message "SUCCESS" "Bluetooth service enabled successfully"
 else
-    echo -e "${RED}[ERROR] Bluetooth service enable failed.${NO_COLOR}"
+    log_messaged "ERROR" "Bluetooth service enable failed"
 fi
 
 # Enable multilib repository
-echo -e "${NO_COLOR}[INFO] Enabling multilib repository...${NO_COLOR}"
+log_message "INFO" "Enabling multilib repository..."
 if sudo sed -i '/^#\[multilib\]/s/^#//; /^#Include = \/etc\/pacman.d\/mirrorlist/s/^#//' /etc/pacman.conf; then
-    echo -e "${GREEN}[INFO] Multilib repository enabled successfully.${NO_COLOR}"
+    log_message "SUCCESS" "Multilib repository enabled successfully"
     
     # Update package database
-    echo -e "${NO_COLOR}[INFO] Updating package database...${NO_COLOR}"
+    log_message "INFO" "Updating package database..."
     if sudo pacman -Sy; then
-        echo -e "${GREEN}[INFO] Package database updated with multilib.${NO_COLOR}"
+        log_message "SUCCESS" "Package database updated with multilib"
     else
-        echo -e "${RED}[ERROR] Failed to update package database.${NO_COLOR}" >&2
+        log_message "ERROR" "Failed to update package database"
     fi
 else
-    echo -e "${RED}[ERROR] Failed to enable multilib repository.${NO_COLOR}" >&2
+    log_message "ERROR" "Failed to enable multilib repository"
 fi
 
 # Install Steam with NVIDIA support
-echo -e "${NO_COLOR}[INFO] Installing Steam with NVIDIA support...${NO_COLOR}"
+log_message "INFO" "Installing Steam with NVIDIA support..."
 if sudo pacman -S --noconfirm steam steam-native-runtime; then
-    echo -e "${GREEN}[INFO] Steam installed successfully.${NO_COLOR}"
+    log_message "SUCCESS" "Steam installed successfully"
     
     # Install NVIDIA gaming dependencies
-    echo -e "${NO_COLOR}[INFO] Installing NVIDIA gaming dependencies...${NO_COLOR}"
+    log_message "INFO" "Installing NVIDIA gaming dependencies"
     if sudo pacman -S --noconfirm \
         lib32-nvidia-utils \
         nvidia-utils \
         lib32-vulkan-icd-loader \
         vulkan-icd-loader; then
         
-        echo -e "${GREEN}[INFO] NVIDIA gaming dependencies installed successfully.${NO_COLOR}"
+        log_message "SUCCESS" "NVIDIA gaming dependencies installed successfully"
     else
-        echo -e "${YELLOW}[WARNING] Some NVIDIA dependencies failed to install.${NO_COLOR}" >&2
+        log_message "WARNING" "Some NVIDIA dependencies failed to install"
     fi
 else
-    echo -e "${RED}[ERROR] Steam installation failed.${NO_COLOR}" >&2
+    log_message "ERROR" "Steam installation failed"
 fi
 
 # Remove GRUB boot menu
 if ! command -v grub-mkconfig &> /dev/null; then
-  echo -e "${BLUE}[INFO] Configuring GRUB for automatic boot without menu...${NO_COLOR}"
+  log_message "INFO" "Configuring GRUB for automatic boot without menu..."
   
   # Backup grub file
   if sudo cp /etc/default/grub /etc/default/grub.backup; then
-      echo -e "${GREEN}[INFO] GRUB backup created successfully.${NO_COLOR}"
+      log_message "SUCCESS" "GRUB backup created successfully"
   else
-      echo -e "${RED}[ERROR] GRUB backup failed.${NO_COLOR}"
+      log_message "ERROR" "GRUB backup failed"
   fi
   
   # Apply configurations
-  echo -e "${BLUE}[INFO] Applying configurations...${NO_COLOR}"
+  log_message "INFO" "Applying configurations..."
   if sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub && \
      sudo sed -i 's/^GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=hidden/' /etc/default/grub && \
      echo "GRUB_HIDDEN_TIMEOUT=0" | sudo tee -a /etc/default/grub > /dev/null; then
-      echo -e "${GREEN}[INFO] Configurations applied successfully.${NO_COLOR}"
+      log_message "SUCCESS" "Configurations applied successfully"
   else
-      echo -e "${RED}[ERROR] Failed to apply configurations.${NO_COLOR}"
+      log_message "ERROR" "Failed to apply configurations"
   fi
   
   # Generate new GRUB configuration
-  echo -e "${BLUE}[INFO] Generating new GRUB configuration...${NO_COLOR}"
+  log_message "INFO" "Generating new GRUB configuration..."
   if sudo grub-mkconfig -o /boot/grub/grub.cfg; then
-      echo -e "${GREEN}[SUCCESS] GRUB boot menu removed successfully!${NO_COLOR}"
+      log_message "SUCCESS" "GRUB boot menu removed successfully"
   else
-      echo -e "${RED}[ERROR] Failed to generate GRUB configuration.${NO_COLOR}"
+      log_message "ERROR" "Failed to generate GRUB configuration"
   fi
 fi
 
 # # Configure Git user information
-echo -e "${BLUE}[INFO] Checking Git installation and configuring user...${NO_COLOR}"
+log_message "INFO" "Checking Git installation and configuring user..."
 
 # Check if Git is installed and configure
 if command -v git &> /dev/null; then
-    echo -e "${GREEN}[INFO] Git is installed. Configuring user information...${NO_COLOR}"
+    log_message "INFO" "Git is installed. Configuring user information..."
     
-    if git config --global user.name "fabridamazio" && \
-       git config --global user.email "fabridamazio@gmail.com"; then
-        echo -e "${GREEN}[SUCCESS] Git configured successfully!${NO_COLOR}"
-        echo -e "${GREEN}[INFO] Name: $(git config --global user.name)${NO_COLOR}"
-        echo -e "${GREEN}[INFO] Email: $(git config --global user.email)${NO_COLOR}"
+    if git config --global user.name $GIT_USERNAME && \
+       git config --global user.email $GIT_EMAIL; then
+        log_message "SUCCESS" "Git configured successfully"
     else
-        echo -e "${RED}[ERROR] Failed to configure Git.${NO_COLOR}"
+        log_message "ERROR" "Failed to configure Git"
     fi
 else
-    echo -e "${YELLOW}[WARNING] Git is not installed. Skipping configuration.${NO_COLOR}"
+    log_message "WARNING" "Git is not installed. Skipping configuration"
 fi
 
-echo -e "${GREEN}[INFO] Intallation completed successfully!${NO_COLOR}"
-echo -e "${GREEN}[INFO] Reboot you system to apply all changes.${NO_COLOR}"
+log_message "SUCCESS" "Intallation completed successfully!"
+log_message "SUCCESS" "Reboot you system to apply all changes"
