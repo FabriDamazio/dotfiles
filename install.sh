@@ -149,6 +149,7 @@ PACKAGES_PACMAN=(
     libnotify
     fop
     libxslt
+    bash-completion
     blueman
     bluez
     bluez-utils
