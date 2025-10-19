@@ -31,7 +31,7 @@
 # press CTRL C to leave
 # ---- install the base system
 # pacman -Syy
-# pacstrap -K /mnt base linux linux-firmware
+# pacstrap -K /mnt base linux linux-firmware linux-headers
 # ---- enter the new system
 # arch-chroot /mnt
 # ---- generate the swapfile
@@ -540,6 +540,22 @@ if command -v git &> /dev/null; then
     fi
 else
     log_message "WARNING" "Git is not installed. Skipping configuration"
+fi
+
+# Configure Early KMS for NVIDIA
+log_message "INFO" "Configuring mkinitcpio for Early KMS for Nvidia"
+if sudo sed -i '/^MODULES=/s/)$/ nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf; then
+    log_message "SUCCESS" "NVIDIA modules added to mkinitcpio"
+    
+    # Rebuild initramfs
+    log_message "INFO" "Rebuilding initramfs..."
+    if sudo mkinitcpio -P; then
+        log_message "SUCCESS" "Initramfs rebuilt with NVIDIA Early KMS"
+    else
+        log_message "ERROR" "Failed to rebuild initramfs"
+    fi
+else
+    log_message "ERROR" "Failed to modify mkinitcpio.conf"
 fi
 
 log_message "SUCCESS" "Intallation completed successfully!"
