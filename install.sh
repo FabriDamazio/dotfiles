@@ -428,7 +428,7 @@ fi
 
 # Configuring SDDM theme
 log_message "INFO" "Cloning SDDM theme repository"
-if curl -fsSL $sddm_themes_url | sh; then
+if curl -fsSL $SDDM_THEMES_URL | sh; then
   log_message "INFO" "Running SDDM theme setup script..."
   if chmod +x setup.sh && ./setup.sh; then
       log_message "SUCCESS" "SDDM theme installed successfully"
@@ -523,7 +523,7 @@ if ! command -v grub-mkconfig &> /dev/null; then
   
   # Generate new GRUB configuration
   log_message "INFO" "Generating new GRUB configuration..."
-  if sudo grub-mkconfig -o /boot/grub/grub.cfg; then
+  if sudo grub-mkconfig -o /mnt/boot/grub/grub.cfg; then
       log_message "SUCCESS" "GRUB boot menu removed successfully"
   else
       log_message "ERROR" "Failed to generate GRUB configuration"
