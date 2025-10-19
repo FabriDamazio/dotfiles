@@ -429,42 +429,90 @@ else
 fi
 
 # Enable multilib repository
-echo "${NO_COLOR}[INFO] Enabling multilib repository...${NO_COLOR}"
+echo -e "${NO_COLOR}[INFO] Enabling multilib repository...${NO_COLOR}"
 if sudo sed -i '/^#\[multilib\]/s/^#//; /^#Include = \/etc\/pacman.d\/mirrorlist/s/^#//' /etc/pacman.conf; then
-    echo "${GREEN}[INFO] Multilib repository enabled successfully.${NO_COLOR}"
+    echo -e "${GREEN}[INFO] Multilib repository enabled successfully.${NO_COLOR}"
     
     # Update package database
-    echo "${NO_COLOR}[INFO] Updating package database...${NO_COLOR}"
+    echo -e "${NO_COLOR}[INFO] Updating package database...${NO_COLOR}"
     if sudo pacman -Sy; then
-        echo "${GREEN}[INFO] Package database updated with multilib.${NO_COLOR}"
+        echo -e "${GREEN}[INFO] Package database updated with multilib.${NO_COLOR}"
     else
-        echo "${RED}[ERROR] Failed to update package database.${NO_COLOR}" >&2
+        echo -e "${RED}[ERROR] Failed to update package database.${NO_COLOR}" >&2
     fi
 else
-    echo "${RED}[ERROR] Failed to enable multilib repository.${NO_COLOR}" >&2
+    echo -e "${RED}[ERROR] Failed to enable multilib repository.${NO_COLOR}" >&2
 fi
 
 # Install Steam with NVIDIA support
-echo "${NO_COLOR}[INFO] Installing Steam with NVIDIA support...${NO_COLOR}"
+echo -e "${NO_COLOR}[INFO] Installing Steam with NVIDIA support...${NO_COLOR}"
 if sudo pacman -S --noconfirm steam steam-native-runtime; then
-    echo "${GREEN}[INFO] Steam installed successfully.${NO_COLOR}"
+    echo -e "${GREEN}[INFO] Steam installed successfully.${NO_COLOR}"
     
     # Install NVIDIA gaming dependencies
-    echo "${NO_COLOR}[INFO] Installing NVIDIA gaming dependencies...${NO_COLOR}"
+    echo -e "${NO_COLOR}[INFO] Installing NVIDIA gaming dependencies...${NO_COLOR}"
     if sudo pacman -S --noconfirm \
         lib32-nvidia-utils \
         nvidia-utils \
         lib32-vulkan-icd-loader \
         vulkan-icd-loader; then
         
-        echo "${GREEN}[INFO] NVIDIA gaming dependencies installed successfully.${NO_COLOR}"
+        echo -e "${GREEN}[INFO] NVIDIA gaming dependencies installed successfully.${NO_COLOR}"
     else
-        echo "${YELLOW}[WARNING] Some NVIDIA dependencies failed to install.${NO_COLOR}" >&2
+        echo -e "${YELLOW}[WARNING] Some NVIDIA dependencies failed to install.${NO_COLOR}" >&2
     fi
 else
-    echo "${RED}[ERROR] Steam installation failed.${NO_COLOR}" >&2
+    echo -e "${RED}[ERROR] Steam installation failed.${NO_COLOR}" >&2
 fi
 
-#expert lsp
-#remove boot menu
-# configure git
+# Remove GRUB boot menu
+if ! command -v grub-mkconfig &> /dev/null; then
+  echo -e "${BLUE}[INFO] Configuring GRUB for automatic boot without menu...${NO_COLOR}"
+  
+  # Backup grub file
+  if sudo cp /etc/default/grub /etc/default/grub.backup; then
+      echo -e "${GREEN}[INFO] GRUB backup created successfully.${NO_COLOR}"
+  else
+      echo -e "${RED}[ERROR] GRUB backup failed.${NO_COLOR}"
+  fi
+  
+  # Apply configurations
+  echo -e "${BLUE}[INFO] Applying configurations...${NO_COLOR}"
+  if sudo sed -i 's/^GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub && \
+     sudo sed -i 's/^GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=hidden/' /etc/default/grub && \
+     echo "GRUB_HIDDEN_TIMEOUT=0" | sudo tee -a /etc/default/grub > /dev/null; then
+      echo -e "${GREEN}[INFO] Configurations applied successfully.${NO_COLOR}"
+  else
+      echo -e "${RED}[ERROR] Failed to apply configurations.${NO_COLOR}"
+  fi
+  
+  # Generate new GRUB configuration
+  echo -e "${BLUE}[INFO] Generating new GRUB configuration...${NO_COLOR}"
+  if sudo grub-mkconfig -o /boot/grub/grub.cfg; then
+      echo -e "${GREEN}[SUCCESS] GRUB boot menu removed successfully!${NO_COLOR}"
+  else
+      echo -e "${RED}[ERROR] Failed to generate GRUB configuration.${NO_COLOR}"
+  fi
+fi
+
+# # Configure Git user information
+echo -e "${BLUE}[INFO] Checking Git installation and configuring user...${NO_COLOR}"
+
+# Check if Git is installed and configure
+if command -v git &> /dev/null; then
+    echo -e "${GREEN}[INFO] Git is installed. Configuring user information...${NO_COLOR}"
+    
+    if git config --global user.name "fabridamazio" && \
+       git config --global user.email "fabridamazio@gmail.com"; then
+        echo -e "${GREEN}[SUCCESS] Git configured successfully!${NO_COLOR}"
+        echo -e "${GREEN}[INFO] Name: $(git config --global user.name)${NO_COLOR}"
+        echo -e "${GREEN}[INFO] Email: $(git config --global user.email)${NO_COLOR}"
+    else
+        echo -e "${RED}[ERROR] Failed to configure Git.${NO_COLOR}"
+    fi
+else
+    echo -e "${YELLOW}[WARNING] Git is not installed. Skipping configuration.${NO_COLOR}"
+fi
+
+echo -e "${GREEN}[INFO] Intallation completed successfully!${NO_COLOR}"
+echo -e "${GREEN}[INFO] Reboot you system to apply all changes.${NO_COLOR}"
