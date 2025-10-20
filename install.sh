@@ -196,6 +196,8 @@ PACKAGES_PACMAN=(
     waybar
     wireplumber
     xdg-desktop-portal-gtk
+    wxwidgets-gtk3
+    wxwidgets-common
     zed
 )
 
@@ -209,7 +211,7 @@ PACKAGES_YAY=(
 MISE_TOOLS=(
     java@openjdk-21
     erlang@28.1
-    elixir@1.19.0-otp-28
+    elixir@1.19.1-otp-28
     dotnet
     usage
   )
