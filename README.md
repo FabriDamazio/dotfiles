@@ -1,8 +1,8 @@
-# 🚀 My Awesome Dotfiles
+# My Awesome Dotfiles
 
 > A carefully curated collection of configuration files for a beautiful, efficient, and modern Linux development environment powered by Hyprland.
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [Overview](#-overview)
 - [Tools & Applications](#-tools--applications)
@@ -19,13 +19,21 @@
 
 ---
 
-## 🎯 Overview
+## Overview
 
 This repository contains my personal dotfiles for Arch Linux with a focus on a modern Wayland-based workflow using Hyprland as the compositor. The setup is optimized for development, productivity, and aesthetics.
 
-## 🛠️ Tools & Applications
+---
 
-### 🪟 Window Manager & Wayland
+## Screenshots
+
+> Screenshots coming soon! 🎨
+
+---
+
+## Tools & Applications
+
+### Window Manager & Wayland
 
 - **[Hyprland](https://github.com/hyprwm/Hyprland)** - A dynamic tiling Wayland compositor that doesn't sacrifice on its looks. Beautiful animations and modern features.
 
@@ -39,7 +47,7 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 - **[xdg-desktop-portal-hyprland](https://github.com/hyprwm/xdg-desktop-portal-hyprland)** - xdg-desktop-portal backend for Hyprland, enabling screen sharing and other desktop integration features.
 
-### 💻 Terminal & Shell
+### Terminal & Shell
 
 - **[Kitty](https://github.com/kovidgoyal/kitty)** - The fast, feature-rich, cross-platform, GPU-based terminal emulator. Supports ligatures, tabs, splits, and extensive customization.
 
@@ -49,13 +57,13 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 - **[Fastfetch](https://github.com/fastfetch-cli/fastfetch)** - A neofetch-like system information tool written in C. Extremely fast and highly customizable.
 
-### ✏️ Text Editors
+### Text Editors
 
 - **[Neovim](https://github.com/neovim/neovim)** - Hyperextensible Vim-based text editor. The ultimate tool for efficient text editing and code development.
 
 - **[Zed](https://github.com/zed-industries/zed)** - A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter.
 
-### 🔧 System Tools
+### System Tools
 
 - **[SwayNC](https://github.com/ErikReider/SwayNotificationCenter)** - A simple notification daemon with a GTK GUI for notifications and the control center. Works perfectly with Hyprland.
 
@@ -65,11 +73,11 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 - **[Vial](https://get.vial.today/)** - An open-source cross-platform GUI and a QMK fork for configuring your keyboard in real-time.
 
-### 🎨 Application Launcher & UI
+### Application Launcher & UI
 
 - **[Rofi](https://github.com/davatorium/rofi)** - A window switcher, application launcher and dmenu replacement with extensive theming capabilities.
 
-### 🔨 Development Tools
+### Development Tools
 
 The dotfiles include configuration for various development tools installed via [mise](https://github.com/jdx/mise):
 
@@ -79,13 +87,13 @@ The dotfiles include configuration for various development tools installed via [
 - **.NET** (dotnet)
 - **Rust** (via rustup)
 
-### 🎵 Multimedia
+### Multimedia
 
 - **[Pipewire](https://gitlab.freedesktop.org/pipewire/pipewire)** - A server and user space API to deal with multimedia pipelines. Configured for audio routing and management.
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -140,18 +148,7 @@ If you prefer to manually install specific configurations:
 
 ---
 
-## 📸 Screenshots
-
-> Screenshots coming soon! 🎨
-
----
-
-## 📄 License
+## License
 
 This repository is available under the MIT License. Feel free to use and modify these configurations for your own setup.
 
----
-
-<div align="center">
-Made with ❤️ by <a href="https://github.com/FabriDamazio">FabriDamazio</a>
-</div>
