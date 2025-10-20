@@ -211,6 +211,7 @@ MISE_TOOLS=(
     erlang@28.1
     elixir@1.19.0-otp-28
     dotnet
+    usage
   )
 
 # log messages function

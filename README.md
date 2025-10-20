@@ -98,7 +98,6 @@ The dotfiles include configuration for various development tools installed via [
 ### Prerequisites
 
 - Arch Linux (or Arch-based distribution)
-- `git` installed
 - Internet connection
 
 ### Quick Install
