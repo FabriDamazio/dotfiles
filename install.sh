@@ -1,27 +1,29 @@
 # Installation script
 
-# On Arch Linux
-# ---- setting keymaps:
+##############################################################################
+# ARCH LINUX INSTALLATION                                                    #
+##############################################################################
+# ---- 1. setting keymaps:
 # loadkeys br-abnt
-# ---- list the disks:
+# ---- 2. list the disks:
 # fdisk -l
-# ---- creating partitions:
+# ---- 3. creating partitions:
 # fdisk <YOUR_BLOCK_DEVICE>
 # n (to create new partition)
 # t (to change partition type)
-# ---- create 3 partitions:
+# ---- 4. create 3 partitions:
 # 1 - 1Gb size - EF (uefi) - for boot
 # 2 - 180gb - 83 (linux Ext4) - for root
 # 3 - the rest - 83 (linux Ext4) - for home
-# ---- formating disks
+# ---- 5. formating disks
 # mkfs.fat -F32 <BOOT PARTITION> (e.g /dev/sda1)
 # mkfs.ext4 <ROOT PARTITION>
 # mkfs.ext4 <HOME PARTITION>
-# ---- mouting partitions
+# ---- 6. mouting partitions
 # mount <ROOT PARTITION> /mnt
 # mount --mkdir <BOOT PARTITION> /mnt/boot
 # mount --mkdir <HOME PARTITION> /mnt/home
-# ---- internet connection (just for WIFI, ethernet skip it)
+# ---- 7. internet connection (just for WIFI, ethernet skip it)
 # iwctl
 # station list # this will show youre wireless cards usually it will be wlan0
 # station wlan0 get-networks
@@ -29,60 +31,61 @@
 # enter the password when prompted
 # you should be connected soon
 # press CTRL C to leave
-# ---- install the base system
+# ---- 8. install the base system
 # pacman -Syy
 # pacstrap -K /mnt base linux linux-firmware linux-headers
-# ---- enter the new system
+# ---- 9. arch linux installed. enter the new system
 # arch-chroot /mnt
-# ---- generate the swapfile
+# ---- 10. generate the swapfile
 # mkswap -U clear --size 16G --file /swapfile
 # swapon /swapfile
-# ---- exit the system
+# ---- 11. exit the system
 # exit
-# ---- generate the FSTAB file
+# ---- 12. generate the FSTAB file
 # genfstab -U /mnt >> /mnt/etc/fstab
-# ---- back to system
+# ---- 13. back to system
 # arch-chroot /mnt
-# ---- installing pacman packages
+# ---- 14. installing pacman packages
 # pacman -S sudo vi iwd dhcpcd networkmanager 
-# ---- setting timezone
+# ---- 15. setting timezone
 # timedatectl set-timezone America/Sao_Paulo
-# ---- setting clock
+# ---- 16. setting clock
 # hwclock --systohc
 # timedatectl set-ntp true
-# ---- locales (uncomment us,pt_BR, ja_JP and  ZN_ch)
+# ---- 17. locales (uncomment us,pt_BR, ja_JP and  ZN_ch)
 # vi /etc/locale.gen
 # locale-gen
 # echo LANG=en_US.UTF-8 > /etc/locale.conf
-# ---- setting hostname
+# ---- 18. setting hostname
 # echo archlinux > /etc/hostname
-# ---- root password
+# ---- 19. root password
 # passwd
-# ---- account setup
+# ---- 20. account setup
 # useradd -m fabri
 # passwd fabri
 # usermod -aG wheel,audio,video,storage fabri 
 # visudo
 # ##uncomment the line starting with %wheel
-# --- bootloader
+# --- 21. bootloader
 # pacman -S grub efibootmgr
 # grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot <BOOT PARTITION>
 # grub-mkconfig -o /boot/grub/grub.cfg
-# ---- enable services
+# ---- 22. enable basic services on startup
 # systemctl enable dhcpcd
 # systemctl enable NetworkManager
 # systemctl enable iwd
-# --- unmount disks
+# --- 23. exit and unmount disks
+# exit
 # umount /mnt/boot
 # umount /mnt
-# ---- reboot
+# ---- 24. reboot
 # reboot now
 
 
-# Download this script
+# 25. Download this script
 # curl -O https://raw.githubusercontent.com/FabriDamazio/dotfiles/master/install.sh
 
-# Make executable
+# 26. Make executable and run
 # chmod +x install.sh
 # ./.install.sh
 
@@ -216,11 +219,11 @@ log_message() {
     local message="$2"
     local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
     local log_entry="[$timestamp] [$level] $message"
-    
-    # Escrever no arquivo
+  
+    # write to file
     echo "$log_entry" >> "$LOG_FILE"
-    
-    # Mostrar no terminal com cores
+   
+    # print on terminal
     case $level in
         "SUCCESS") echo -e "${GREEN}$log_entry${NO_COLOR}" ;;
         "ERROR") echo -e "${RED}$log_entry${NO_COLOR}" ;;
