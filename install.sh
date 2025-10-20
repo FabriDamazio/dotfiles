@@ -11,7 +11,7 @@
 # t (to change partition type)
 # ---- create 3 partitions:
 # 1 - 1Gb size - EF (uefi) - for boot
-# 2 - 50gb - 83 (linux Ext4) - for root
+# 2 - 180gb - 83 (linux Ext4) - for root
 # 3 - the rest - 83 (linux Ext4) - for home
 # ---- formating disks
 # mkfs.fat -F32 <BOOT PARTITION> (e.g /dev/sda1)
