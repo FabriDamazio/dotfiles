@@ -7,6 +7,10 @@
         "padding": {
             "top": 5,
             "left": 3
+        },
+        "color":{
+          "1":"#B4BEFE",
+          "2":"#F5C2E7"
         }
     },
     "modules": [
@@ -52,27 +56,27 @@
         {
             "type": "os",
             "key": " OS",
-            "keyColor": "#f9e2af"
+            "keyColor": "#B4BEFE"
         },
         {
             "type": "kernel",
             "key": "│ ├",
-            "keyColor": "#f9e2af"
+            "keyColor": "#B4BEFE"
         },
         {
             "type": "bios",
             "key": "│ ├",
-            "keyColor": "#f9e2af"
+            "keyColor": "#B4BEFE"
         },
         {
             "type": "packages",
             "key": "│ ├󰏖",
-            "keyColor": "#f9e2af"
+            "keyColor": "#B4BEFE"
         },
         {
             "type": "shell",
             "key": "└ └",
-            "keyColor": "#f9e2af"
+            "keyColor": "#B4BEFE"
         },
         "break",
         {
