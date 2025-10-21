@@ -3,10 +3,12 @@
   "position": "top",
   "margin-bottom": -10,
   "spacing" : 0,
+  
   "modules-left": [
-  "hyprland/workspaces",
-  "cpu",
-  "custom/music"
+    "hyprland/workspaces",
+    "cpu",
+    "memory",
+    "custom/music"
   ],
 
   "modules-right": [
