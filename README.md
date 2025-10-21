@@ -27,7 +27,17 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 ## Screenshots
 
-> Screenshots coming soon! 🎨
+### Full Desktop View
+![Full Desktop](screenshots/full.png)
+
+### System Information
+![Fastfetch](screenshots/fastfetch.png)
+
+### Notifications
+![Notifications](screenshots/notify.png)
+
+### Wallpaper
+![Wallpaper](screenshots/wallpaper.png)
 
 ---
 
