@@ -361,6 +361,18 @@ for tool in "${MISE_TOOLS[@]}"; do
     fi
 done
 
+# Installing Phoenix Framework
+log_message "INFO" "Installing Phoenix Framework"
+if command -v elixir >/dev/null 2>&1; then
+    if mix archive.install hex phx_new --force; then
+        log_message "SUCCESS" "Phoenix Framework installation completed"
+    else
+        log_message "ERROR" "Phoenix Framework installation failed"
+    fi
+else
+    log_message "ERROR" "Elixir not found. Please install Elixir first"
+fi
+
 # Installing Rust
 log_message "INFO" "Installing Rust"
 if curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; then
