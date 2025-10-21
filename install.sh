@@ -185,6 +185,7 @@ PACKAGES_PACMAN=(
     pipewire-audio
     pipewire-pulse
     playerctl
+    postgresql
     ripgrep
     rofi
     sddm
@@ -429,6 +430,14 @@ if systemctl --user enable pipewire-pulse; then
 else
   log_message "ERROR" "pipewire-pulse service enable failed"
 fi
+
+# PostgreSQL - create the cluster and enable the service
+log_message "INFO" "Setting up PostgreSQL..."
+sudo -u postgres bash -c 'initdb -D /var/lib/postgres/data' && 
+systemctl enable postgresql &&
+log_message "SUCCESS" "PostgreSQL setup completed" || {
+    log_message "ERROR" "PostgreSQL setup failed"
+}
 
 # Installing Ollama
 log_message "INFO" "Installing Ollama..."
