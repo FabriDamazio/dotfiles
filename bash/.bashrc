@@ -25,3 +25,6 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 
 # ollama models
 export OLLAMA_MODELS="$HOME/Models"
+
+# gpg key to sign commits
+export GPG_TTY=$(tty)
