@@ -18,9 +18,7 @@
 
 /* Left Modules (Individual, Fully Rounded Blocks) */
 #workspaces,
-#custom-music,
-#memory,
-#cpu {
+#custom-music {
   background-color: @base;
   padding: 0.3rem 0.7rem;
   margin: 5px 5px;
@@ -33,10 +31,11 @@
 
 #workspaces {
   padding: 2px;
-  margin-left: 7px;
+  margin-left: 8px;
 }
 
 #memory:hover,
+#custom-gpu-usage:hover,
 #custom-music:hover,
 #cpu:hover {
   background-color: @surface0;
@@ -79,7 +78,10 @@
   background-color: @surface0; 
 }
 
-/* Right Modules (Single, Seamless Bar) */
+/* (Single, Seamless Bar) */
+#custom-gpu-usage,
+#memory,
+#cpu, 
 #bluetooth,
 #pulseaudio,
 #backlight,
@@ -109,19 +111,22 @@
   background-color: @surface0; 
 }
 
+#cpu,
 #bluetooth {
-  margin-left: 0px;
+  margin-left: 8px;
   border-top-left-radius: 6px;
   border-bottom-left-radius: 6px;
 }
 
+#memory,
 #battery {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
-  margin-right: 7px;
+  margin-right: 8px;
 }
 
 /* Colors */
+#custom-gpu-usage,
 #custom-music,
 #memory,
 #pulseaudio,
@@ -143,13 +148,13 @@
 
 #custom-lock {
   color: @text;
-  margin-left: 6px;
+  margin-left: 8px;
   border-radius: 6px;
 }
 #custom-shutdown {
   color: @text;
-  margin-right: 7px;
-  margin-left: 6px;
+  margin-right: 8px;
+  margin-left: 8px;
   border-radius: 6px;
 }
 

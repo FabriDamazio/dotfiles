@@ -7,6 +7,7 @@
   "modules-left": [
     "hyprland/workspaces",
     "cpu",
+    "custom/gpu-usage",
     "memory",
     "custom/music"
   ],
@@ -102,6 +103,13 @@
     "interval": 30,
     "format": "  {used:0.1f}G/{total:0.1f}G",
     "tooltip-format": "Memory"
+  },
+
+  "custom/gpu-usage": {
+    "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits",
+    "format": "GPU: {}%",
+    "return-type": "",
+    "interval": 1
   },
 
   "pulseaudio": {
