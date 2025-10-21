@@ -159,6 +159,7 @@ PACKAGES_PACMAN=(
     bluez-deprecated-tools
     firefox
     flameshot
+    glow
     gnome-disk-utility
     gnome-boxes
     godot
