@@ -95,6 +95,7 @@
 YAY_REPO_URL="https://aur.archlinux.org/yay.git"
 DOTFILES_REPO_URL="https://github.com/FabriDamazio/dotfiles.git"
 TEMP_DIR="temp"
+USER="fabri"
 SDDM_THEMES_URL="https://raw.githubusercontent.com/FabriDamazio/sddm-fabri-themes/master/setup.sh"
 LOG_FILE="$HOME/installation.log"
 GIT_USERNAME="fabridamazio"
@@ -157,6 +158,7 @@ PACKAGES_PACMAN=(
     bluez
     bluez-utils
     bluez-deprecated-tools
+    docker
     firefox
     flameshot
     glow
@@ -569,6 +571,26 @@ if command -v git &> /dev/null; then
     fi
 else
     log_message "WARNING" "Git is not installed. Skipping configuration"
+fi
+
+# Configure Docker
+if command -v docker &> /dev/null; then
+  log_message "INFO" "Configuring docker service and permissions..."
+
+  if sudo systemctl enable docker; then
+    log_message "SUCCESS" "Docker service enabled successfully"
+  else
+    log_message "ERROR" "Failed to enable Docker service"
+  fi
+
+
+  if sudo usermod -aG docker $USER; then
+    log_message "SUCCESS" "User $USER added to docker group"
+  else
+    log_message "ERROR" "Failed to add $USER to docker group"
+  fi
+else
+  log_message "WARNING" "Docker not installed. Skipping configuration"
 fi
 
 # Configure Early KMS for NVIDIA
