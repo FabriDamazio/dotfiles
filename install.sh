@@ -151,6 +151,7 @@ PACKAGES_PACMAN=(
     libgl
     libxml2
     libnotify
+    loupe
     fop
     libxslt
     bash-completion
