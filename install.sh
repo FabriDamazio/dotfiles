@@ -180,6 +180,8 @@ PACKAGES_PACMAN=(
     nautilus
     nm-connection-editor
     noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
     nwg-look
     openrgb
     pam
