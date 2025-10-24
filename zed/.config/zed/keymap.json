@@ -113,5 +113,11 @@
     "bindings": {
       "ctrl-y": "editor::ConfirmCompletion"
     }
+  },
+  {
+    "context": "VimControl",
+    "bindings": {
+      "\\ a": "editor::SelectAll"
+    }
   }
 ]
