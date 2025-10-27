@@ -184,6 +184,7 @@ PACKAGES_PACMAN=(
     noto-fonts-emoji
     nwg-look
     openrgb
+    obsidian
     pam
     pavucontrol
     pipewire
