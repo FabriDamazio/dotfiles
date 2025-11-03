@@ -4,4 +4,6 @@ return {
   require("plugins.coding.leetcode"),
   require("plugins.coding.codecompanion"),
   require("plugins.coding.mini-diff"),
+  require("plugins.coding.copilot"),
+  require("plugins.coding.gitsigns"),
 }
