@@ -28,7 +28,7 @@ return {
       ensure_installed = {
         "lua_ls",
         "rust_analyzer",
-        --"elixirls",
+        "expert",
         "omnisharp",
       },
       handlers = {
@@ -38,13 +38,13 @@ return {
           }
         end,
 
-        --["elixirls"] = function()
-        --  local lspconfig = require("lspconfig")
-        --  lspconfig.elixirls.setup({
-        --    -- you need to specify the executable command mannualy for elixir-ls
-        --    cmd = { "/home/fabri/.local/bin/elixir-ls/language_server.sh" },
-        --  })
-        --end,
+        ["expert"] = function()
+          local lspconfig = require("lspconfig")
+          lspconfig.expert.setup({
+            cmd = { 'expert' },
+            filetypes = { 'elixir', 'eelixir', 'heex' },
+          })
+        end,
 
         ["lua_ls"] = function()
           local lspconfig = require("lspconfig")
@@ -92,33 +92,6 @@ return {
             }
           })
         end,
-      }
-    })
-
-    local lspconfig = require('lspconfig')
-    local configs = require('lspconfig.configs')
-
-    if not configs.expert_lsp then
-      configs.expert_lsp = {
-        default_config = {
-          cmd = { 'expert-lsp' },
-          filetypes = { 'elixir', 'eex', 'heex', 'surface' },
-          root_dir = lspconfig.util.root_pattern('mix.exs', '.git'),
-          settings = {},
-        },
-      }
-    end
-
-    lspconfig.expert_lsp.setup({
-      cmd = { "/home/fabri/.local/bin/expert_linux_amd64" },
-      filetypes = { "elixir", "eex", "heex", "surface" },
-      capabilities = capabilities,
-      root_dir = lspconfig.util.root_pattern("mix.exs", ".git"),
-      settings = {
-        expert = {
-          enableDiagnostics = true,
-          enableFormatting = true,
-        }
       }
     })
 
