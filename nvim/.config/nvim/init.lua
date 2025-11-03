@@ -2,7 +2,7 @@ require("config.keymaps")
 require("config.lazy")
 require("config.options")
 
-vim.cmd.colorscheme("tokyonight-night")
+vim.cmd.colorscheme("catppuccin-mocha")
 vim.notify = require("notify")
 
 local augroup = vim.api.nvim_create_augroup

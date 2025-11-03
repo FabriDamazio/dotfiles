@@ -16,11 +16,8 @@ return {
   config = function()
     local cmp = require('cmp')
     local cmp_lsp = require("cmp_nvim_lsp")
-    local capabilities = vim.tbl_deep_extend(
-      "force",
-      {},
-      vim.lsp.protocol.make_client_capabilities(),
-      cmp_lsp.default_capabilities())
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
     require("fidget").setup({})
     require("mason").setup()
@@ -30,70 +27,52 @@ return {
         "rust_analyzer",
         "expert",
         "omnisharp",
-      },
-      handlers = {
-        function(server_name) -- default handler (optional)
-          require("lspconfig")[server_name].setup {
-            capabilities = capabilities
-          }
-        end,
-
-        ["expert"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.expert.setup({
-            cmd = { 'expert' },
-            filetypes = { 'elixir', 'eelixir', 'heex' },
-          })
-        end,
-
-        ["lua_ls"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.lua_ls.setup {
-            capabilities = capabilities,
-            settings = {
-              Lua = {
-                runtime = { version = "Lua 5.1" },
-                diagnostics = {
-                  globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                }
-              }
-            }
-          }
-        end,
-
-        ["omnisharp"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.omnisharp.setup {
-            capabilities = capabilities,
-            enable_roslyn_analyzers = true,
-            organize_imports_on_format = true,
-            enable_import_completion = true,
-          }
-        end,
-
-        ["rust_analyzer"] = function()
-          local lspconfig = require("lspconfig")
-          lspconfig.rust_analyzer.setup({
-            capabilities = capabilities,
-            settings = {
-              ["rust-analyzer"] = {
-                cargo = {
-                  allFeatures = true,
-                  loadOutDirsFromCheck = true
-                },
-                checkOnSave = {
-                  command = "clippy", -- Análise com Clippy
-                  extraArgs = { "--no-deps" }
-                },
-                procMacro = {
-                  enable = true -- Suporte a macros
-                }
-              }
-            }
-          })
-        end,
       }
     })
+
+    vim.lsp.config['expert'] = {
+      cmd = { "expert", "--stdio" },
+      filetypes = { 'elixir', 'eelixir', 'heex' },
+      capabilities = capabilities,
+    }
+
+    vim.lsp.config["lua_ls"] = {
+     capabilities = capabilities,
+     settings = {
+       Lua = {
+         runtime = { version = "Lua 5.1" },
+         diagnostics = {
+           globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+         }
+       }
+     }
+   }
+
+    vim.lsp.config['omnisharp'] = {
+        capabilities = capabilities,
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+    }
+
+    vim.lsp.config["rust_analyzer"] = { 
+        capabilities = capabilities,
+        settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true
+            },
+            checkOnSave = {
+              command = "clippy", -- Análise com Clippy
+              extraArgs = { "--no-deps" }
+            },
+            procMacro = {
+              enable = true -- Suporte a macros
+            }
+          }
+        }
+      }
 
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
