@@ -1,6 +1,6 @@
 # My nvim config
 
-![Current neovim look](https://github.com/FabriDamazio/nvim/blob/master/screenshot.png)
+![Current neovim look](https://github.com/FabriDamazio/dotfiles/blob/master/nvim/.config/nvim/screenshot.png)
 
 ## Font
 -[Zed Mono](https://github.com/zed-industries/zed-fonts)
@@ -19,7 +19,7 @@ background-opacity = 0.99
 ### UI
 - [bufferline](https://github.com/akinsho/bufferline.nvim): A buffer line (with tabpage integration).
 - [lualine](https://github.com/nvim-lualine/lualine.nvim): A blazing fast and easy to configure Neovim statusline.
-- [tokyonight](https://github.com/folke/tokyonight.nvim): A dark and night theme.
+- [catppuccin](https://github.com/catppuccin/nvim): A soothing pastel theme.
 - [hover](https://github.com/lewis6991/hover.nvim): Beautiful hover windows for docs and diagnostics.
 - [nui](https://github.com/MunifTanjim/nui.nvim): UI component library.
 - [notify](https://github.com/rcarriga/nvim-notify): A fancy, configurable, notification manager.
