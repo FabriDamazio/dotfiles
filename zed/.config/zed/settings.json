@@ -26,7 +26,7 @@
   },
   "agent": {
     "always_allow_tool_actions": true,
-    "default_profile": "write",
+    "default_profile": "minimal",
     "single_file_review": true,
     "model_parameters": [],
     "default_model": {
