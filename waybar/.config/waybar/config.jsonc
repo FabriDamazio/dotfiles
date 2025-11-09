@@ -13,6 +13,7 @@
   ],
 
   "modules-right": [
+    "tray",
     "clock",
     "bluetooth",
     "network",
@@ -28,6 +29,12 @@
       "active": "",
       "default": ""
     }
+  },
+
+  "tray": {
+    "icon-size": 21,
+    "spacing": 10,
+    "exclude": ["bluetooth", "blueberry", "blueman"]
   },
 
   "bluetooth": {

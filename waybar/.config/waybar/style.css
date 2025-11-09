@@ -62,7 +62,8 @@
   color: #c6d0f5;
 }
 
-#clock {
+#clock, 
+#tray {
   background-color: @base;
   padding: 0.3rem 0.7rem;
   margin: 5px 0px;
@@ -197,4 +198,19 @@ tooltip {
 tooltip label {
   padding: 5px 12px;
   margin: 5px 0px;
+}
+
+
+#tray:hover {
+    background-color: @surface0;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @red;
+    border-radius: 4px;
 }
