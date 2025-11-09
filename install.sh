@@ -159,6 +159,7 @@ PACKAGES_PACMAN=(
     bluez
     bluez-utils
     bluez-deprecated-tools
+    chromium
     docker
     firefox
     flameshot
