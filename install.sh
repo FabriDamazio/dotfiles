@@ -166,6 +166,7 @@ PACKAGES_PACMAN=(
     glow
     gnome-disk-utility
     gnome-boxes
+    gnome-clocks
     godot
     gzip
     gtk3
