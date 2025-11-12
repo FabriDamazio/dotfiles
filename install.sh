@@ -155,6 +155,7 @@ PACKAGES_PACMAN=(
     fop
     libxslt
     bash-completion
+    blender
     blueman
     bluez
     bluez-utils
