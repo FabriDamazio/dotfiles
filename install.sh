@@ -205,6 +205,7 @@ PACKAGES_PACMAN=(
     stow
     swaync
     thunderbird
+    tree-sitter-cli
     ttf-jetbrains-mono-nerd
     waybar
     wireplumber
