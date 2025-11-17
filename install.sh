@@ -206,6 +206,7 @@ PACKAGES_PACMAN=(
     ttf-jetbrains-mono-nerd
     waybar
     wireplumber
+    wl-clipboard
     xdg-desktop-portal-gtk
     wxwidgets-gtk3
     wxwidgets-common
