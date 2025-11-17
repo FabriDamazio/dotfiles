@@ -152,6 +152,7 @@ PACKAGES_PACMAN=(
     libxml2
     libnotify
     loupe
+    fd
     fop
     libxslt
     luarocks
