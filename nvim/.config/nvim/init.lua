@@ -79,3 +79,9 @@ end, { desc = 'Toggle [T]erminal' })
 
 -- vsplit separator
 vim.cmd("highlight WinSeparator guifg=#ff9e64")
+
+-- do not load unused providers
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0 
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider = 0
