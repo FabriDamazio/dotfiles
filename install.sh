@@ -154,6 +154,8 @@ PACKAGES_PACMAN=(
     loupe
     fop
     libxslt
+    luarocks
+    lua51
     bash-completion
     blender
     blueman
