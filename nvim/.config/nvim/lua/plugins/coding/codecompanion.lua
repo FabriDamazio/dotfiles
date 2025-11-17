@@ -3,7 +3,6 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter",
-    "ravitemer/mcphub.nvim",
   },
   config = function()
     require("codecompanion").setup({
@@ -38,7 +37,6 @@ return {
             })
           end,
           opts = {
-            -- se você precisar passar configs globais do http adapter
           },
         },
       },
