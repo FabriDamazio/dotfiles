@@ -165,6 +165,7 @@ PACKAGES_PACMAN=(
     bluez-deprecated-tools
     chromium
     docker
+    dosfstools
     firefox
     flameshot
     glow
