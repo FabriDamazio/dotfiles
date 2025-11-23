@@ -34,7 +34,8 @@
   "tray": {
     "icon-size": 21,
     "spacing": 10,
-    "exclude": ["bluetooth", "blueberry", "blueman"]
+    "exclude": ["bluetooth", "blueberry", "blueman"],
+    "show-passive-items": true 
   },
 
   "bluetooth": {
