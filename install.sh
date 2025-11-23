@@ -223,6 +223,7 @@ PACKAGES_YAY=(
     neovim-git
     mpdris2-rs
     vial-appimage
+    wayscriber
 )
 
 MISE_TOOLS=(
