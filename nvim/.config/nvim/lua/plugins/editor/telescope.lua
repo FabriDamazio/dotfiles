@@ -20,6 +20,10 @@ return {
       desc = "Git Files (git_files)" -- Shown in which-key when pressing <C-p>
     })
 
+    vim.keymap.set('n', '<leader>pb', builtin.buffers, {
+      desc = "Buffers search"
+    })
+
     -- Word-based Search
     vim.keymap.set('n', '<leader>pws', function()
       local word = vim.fn.expand("<cword>")
