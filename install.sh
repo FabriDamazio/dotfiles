@@ -112,6 +112,7 @@ YELLOW='\e[1;93m'
 NO_COLOR='\e[0m'
 
 PACKAGES_PACMAN=(
+    7zip
     amd-ucode
     fastfetch
   	nano
@@ -168,6 +169,7 @@ PACKAGES_PACMAN=(
     dosfstools
     firefox
     flameshot
+    fzf
     glow
     gnome-disk-utility
     gnome-boxes
@@ -199,6 +201,7 @@ PACKAGES_PACMAN=(
     pipewire-pulse
     playerctl
     postgresql
+    resvg
     ripgrep
     rofi
     sddm
@@ -216,6 +219,7 @@ PACKAGES_PACMAN=(
     xdg-desktop-portal-gtk
     wxwidgets-gtk3
     wxwidgets-common
+    yazi
     zed
 )
 
