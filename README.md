@@ -67,6 +67,8 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 - **[Fastfetch](https://github.com/fastfetch-cli/fastfetch)** - A neofetch-like system information tool written in C. Extremely fast and highly customizable.
 
+- **[Tmux](https://github.com/tmux/tmux)** - A terminal multiplexer that lets you switch easily between several programs in one terminal, detach them, and reattach them to a different terminal.
+
 ### Text Editors
 
 - **[Neovim](https://github.com/neovim/neovim)** - Hyperextensible Vim-based text editor. The ultimate tool for efficient text editing and code development.
@@ -83,6 +85,8 @@ This repository contains my personal dotfiles for Arch Linux with a focus on a m
 
 - **[Vial](https://get.vial.today/)** - An open-source cross-platform GUI and a QMK fork for configuring your keyboard in real-time.
 
+- **[Yazi](https://github.com/sxyazi/yazi)** - A blazing fast terminal file manager written in Rust, based on async I/O.
+
 ### Application Launcher & UI
 
 - **[Rofi](https://github.com/davatorium/rofi)** - A window switcher, application launcher and dmenu replacement with extensive theming capabilities.
@@ -97,9 +101,13 @@ The dotfiles include configuration for various development tools installed via [
 - **.NET** (dotnet)
 - **Rust** (via rustup)
 
+- **[Godot](https://godotengine.org/)** - A feature-packed, cross-platform game engine to create 2D and 3D games from a unified interface.
+
 ### Multimedia
 
 - **[Pipewire](https://gitlab.freedesktop.org/pipewire/pipewire)** - A server and user space API to deal with multimedia pipelines. Configured for audio routing and management.
+
+- **[Wayscriber](https://github.com/Exilliar/wayscriber)** - A simple screen recorder for Wayland compositors.
 
 ---
 
