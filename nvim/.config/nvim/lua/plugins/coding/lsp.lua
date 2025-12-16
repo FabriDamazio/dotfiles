@@ -74,6 +74,8 @@ return {
         }
       }
 
+    vim.lsp.enable('gdscript')
+
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
     cmp.setup({
