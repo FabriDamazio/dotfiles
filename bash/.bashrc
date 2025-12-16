@@ -28,3 +28,6 @@ export GPG_TTY=$(tty)
 
 # zed editor
 alias zed='zeditor'
+
+# bin
+export PATH="~/.local/bin:$PATH"
