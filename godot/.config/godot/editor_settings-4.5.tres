@@ -242,8 +242,8 @@ text_editor/script_list/highlight_scene_scripts = true
 text_editor/script_list/group_help_pages = true
 text_editor/script_list/sort_scripts_by = 0
 text_editor/script_list/list_script_names_as = 0
-text_editor/external/exec_path = ""
-text_editor/external/exec_flags = "{file}"
+text_editor/external/exec_path = "/usr/bin/zeditor"
+text_editor/external/exec_flags = "{project} {file}:{line}:{col}"
 text_editor/completion/idle_parse_delay = 1.5
 text_editor/completion/idle_parse_delay_with_errors_found = 0.5
 text_editor/completion/auto_brace_complete = true
@@ -256,7 +256,7 @@ text_editor/completion/add_string_name_literals = false
 text_editor/completion/add_node_path_literals = false
 text_editor/completion/use_single_quotes = false
 text_editor/completion/colorize_suggestions = true
-text_editor/external/use_external_editor = false
+text_editor/external/use_external_editor = true
 text_editor/help/show_help_index = true
 text_editor/help/help_font_size = 16
 text_editor/help/help_source_font_size = 15
@@ -451,9 +451,12 @@ _editor_settings_advanced_mode = true
 _project_settings_advanced_mode = false
 _export_template_download_directory = ""
 _default_feature_profile = ""
-_script_setup_templates_dictionary = {}
+_script_setup_templates_dictionary = {
+"CharacterBody2D": "0CharacterBody2DBasic Movement"
+}
 _script_setup_use_script_templates = true
 _use_favorites_root_selection = false
+network/language_server/show_native_symbols_in_editor = true
 asset_library/available_urls = {
 "godotengine.org (Official)": "https://godotengine.org/asset-library/api"
 }
