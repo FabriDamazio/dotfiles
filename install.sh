@@ -170,6 +170,7 @@ PACKAGES_PACMAN=(
     firefox
     flameshot
     fzf
+    gimp
     glow
     gnome-disk-utility
     gnome-boxes
