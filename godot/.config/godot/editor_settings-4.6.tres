@@ -4,7 +4,7 @@
 keycode = 4194326
 
 [resource]
-interface/editor/vsync_mode = 2
+interface/editor/vsync_mode = 0
 interface/theme/base_color = Color(0.153, 0.153, 0.153, 1)
 interface/theme/accent_color = Color(0.337, 0.62, 1, 1)
 interface/theme/contrast = 0.35
