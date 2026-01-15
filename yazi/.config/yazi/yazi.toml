@@ -6,3 +6,8 @@ show_hidden = true
 edit = [
   { run = 'nvim "$@"', block = true, for = "unix"}
 ]
+
+[open]
+rules = [
+  { url="*.zip", use = ["extract", "reveal"]}
+]
