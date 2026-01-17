@@ -7,7 +7,14 @@ configuration {
     display-window: "󱂬 window:";
     display-combi:  "󰕘 combi:";
     display-filebrowser: "󰉋 filebrowser:";
+    font: "mono 22";
 }
 
 @theme "~/.config/rofi/catppuccin-mocha.rasi"
+
+window {
+    width: 20%;
+    height: 20%;
+}  
+
 
