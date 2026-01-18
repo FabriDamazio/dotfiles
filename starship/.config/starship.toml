@@ -2,6 +2,7 @@
 
 palette = "catppuccin_mocha"
 
+add_newline = false
 
 format = """
 [](surface0)\
