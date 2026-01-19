@@ -7,66 +7,25 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "icon_theme": {
-    "mode": "dark",
-    "light": "Catppuccin Mocha",
-    "dark": "Catppuccin Mocha"
-  },
-  "edit_predictions": {
-    "mode": "subtle",
-    "copilot": {
-      "proxy": null,
-      "proxy_no_verify": null,
-      "enterprise_uri": null
-    },
-    "enabled_in_text_threads": false
-  },
-  "features": {
-    "edit_prediction_provider": "zed"
-  },
   "agent": {
-    "always_allow_tool_actions": true,
-    "default_profile": "minimal",
-    "single_file_review": true,
-    "model_parameters": [],
     "default_model": {
       "provider": "ollama",
       "model": "qwen3-coder:latest"
-    }
-  },
-  "language_models": {
-    "ollama": {
-      "api_url": "http://localhost:11434",
-      "available_models": [
-        {
-          "name": "qwen3-coder:30b",
-          "display_name": "Qwen3 Coder",
-          "max_tokens": 32000,
-          "supports_tools": true,
-          "supports_thinking": false,
-          "supports_images": false
-        }
-      ]
-    }
+    },
+    "favorite_models": [],
+    "model_parameters": []
   },
   "vim_mode": true,
-  "ui_font_size": 20,
-  "buffer_font_size": 22,
-  "theme": {
-    "mode": "dark",
-    "light": "Catppuccin Mocha",
-    "dark": "Catppuccin Mocha"
+  "buffer_line_height": "comfortable",
+  "buffer_font_family": ".ZedMono",
+  "terminal": {
+    "font_family": "ZedMono Nerd Font Mono"
   },
-  "relative_line_numbers": true,
-  "languages": {
-    "Elixir": {
-      "language_servers": [
-        "expert",
-        "!elixir-ls",
-        "!next-ls",
-        "!lexical",
-        "..."
-      ]
-    }
-  }
+  "ui_font_size": 26.0,
+  "buffer_font_size": 26.0,
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Mocha - No Italics",
+    "dark": "Catppuccin Mocha - No Italics",
+  },
 }

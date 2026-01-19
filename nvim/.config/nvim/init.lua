@@ -51,6 +51,12 @@ autocmd('LspAttach', {
   end
 })
 
+-- Enable treesitter highlighting
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'ex', 'exs' },
+  callback = function() vim.treesitter.start() end,
+})
+
 local function setup_terminal()
   -- Open terminal in bottom split (20% height)
   local height = math.floor(vim.o.lines * 0.2)
