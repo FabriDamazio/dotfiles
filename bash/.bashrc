@@ -33,7 +33,7 @@ export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export GPG_TTY=$(tty)
 
 # zed editor
-alias zed='zeditor'
+#alias zed='zeditor'
 
 # bin
 export PATH="~/.local/bin:$PATH"

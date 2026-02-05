@@ -45,13 +45,13 @@
   {
     "context": "Workspace",
     "bindings": {
-      "\\ c c": "agent::ToggleFocus"
+      "\\ c": "agent::ToggleFocus"
     }
   },
   {
     "context": "Workspace",
     "bindings": {
-      "ctrl-c ctrl-c": "workspace::ToggleRightDock"
+      "ctrl-r ctrl-r": "workspace::ToggleRightDock"
     }
   },
   {
