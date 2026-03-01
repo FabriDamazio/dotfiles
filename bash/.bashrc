@@ -39,4 +39,4 @@ export GPG_TTY=$(tty)
 export PATH="~/.local/bin:$PATH"
 
 # godot rust
-export GODOT4_BIN="~/.local/bin/godot/Godot_v4.6-stable_linux.x86_64"
+export GODOT4_BIN="~/.local/bin/godot/godot"
