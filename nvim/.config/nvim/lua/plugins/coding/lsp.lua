@@ -16,8 +16,8 @@ return {
   config = function()
     local cmp = require('cmp')
     local cmp_lsp = require("cmp_nvim_lsp")
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+    
+    local capabilities = cmp_lsp.default_capabilities()
 
     require("fidget").setup({})
     require("mason").setup()
@@ -27,61 +27,82 @@ return {
         "rust_analyzer",
         "expert",
         "omnisharp",
-      }
+      },
+      automatic_installation = true,
     })
 
     vim.lsp.config['expert'] = {
       cmd = { "expert", "--stdio" },
-      filetypes = { 'elixir', 'eelixir', 'heex' },
+      filetypes = { 'elixir', 'heex' },
+      root_markers = { 'mix.exs', '.git' },
       capabilities = capabilities,
     }
 
-    vim.lsp.config["lua_ls"] = {
-     capabilities = capabilities,
-     settings = {
-       Lua = {
-         runtime = { version = "Lua 5.1" },
-         diagnostics = {
-           globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-         }
-       }
-     }
-   }
-
-    vim.lsp.config['omnisharp'] = {
-        capabilities = capabilities,
-        enable_roslyn_analyzers = true,
-        organize_imports_on_format = true,
-        enable_import_completion = true,
+    vim.lsp.config['lua_ls'] = {
+      cmd = { "lua-language-server" },
+      filetypes = { 'lua' },
+      root_markers = { '.luarc.json', '.luarc.jsonc', '.git' },
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          runtime = { version = "Lua 5.1" },
+          diagnostics = {
+            globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+          },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          telemetry = { enable = false },
+        }
+      }
     }
 
-    vim.lsp.config["rust_analyzer"] = { 
-        capabilities = capabilities,
-        settings = {
-          ["rust-analyzer"] = {
-            cargo = {
-              allFeatures = true,
-              loadOutDirsFromCheck = true
-            },
-            checkOnSave = {
-              command = "clippy", -- Análise com Clippy
-              extraArgs = { "--no-deps" }
-            },
-            procMacro = {
-              enable = true -- Suporte a macros
-            }
+    vim.lsp.config['rust_analyzer'] = {
+      cmd = { "rust-analyzer" },
+      filetypes = { 'rust' },
+      root_markers = { 'Cargo.toml', '.git' },
+      capabilities = capabilities,
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = {
+            allFeatures = true,
+            loadOutDirsFromCheck = true
+          },
+          check = {
+            command = "clippy",
+            extraArgs = { "--no-deps" }
+          },
+          procMacro = {
+            enable = true
           }
         }
       }
+    }
 
-    vim.lsp.enable('gdscript')
+    vim.lsp.config['omnisharp'] = {
+      cmd = { "omnisharp" },
+      filetypes = { 'cs', 'vb' },
+      root_markers = { '*.sln', '*.csproj', '.git' },
+      capabilities = capabilities,
+      settings = {
+        enable_roslyn_analyzers = true,
+        organize_imports_on_format = true,
+        enable_import_completion = true,
+      }
+    }
+
+    vim.lsp.enable('expert')
+    vim.lsp.enable('lua_ls')
+    vim.lsp.enable('rust_analyzer')
+    vim.lsp.enable('omnisharp')
 
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
     cmp.setup({
       snippet = {
         expand = function(args)
-          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          require('luasnip').lsp_expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({
@@ -92,37 +113,13 @@ return {
       }),
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'luasnip' }, -- For luasnip users.
+        { name = 'luasnip' },
       }, {
         { name = 'buffer' },
       }),
-
-      per_filetype = {
-        codecompanion = { "codecompanion" },
-      },
     })
-
-    -- For `/` and `?` commands.
-    cmp.setup.cmdline({ "/", "?" }, {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = "buffer" }
-      }
-    })
-
-    -- For `:` command.
-    cmp.setup.cmdline(":", {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = "path" }
-      }, {
-        { name = "cmdline" }
-      })
-    })
-
 
     vim.diagnostic.config({
-      -- update_in_insert = true,
       float = {
         focusable = false,
         style = "minimal",
