@@ -7,6 +7,10 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "agent_servers": {
+    
+  },
+  "buffer_font_family": "Hack Nerd Font Mono",
   "languages": {
     "Elixir": {
       "language_servers": ["expert", "!elixir-ls", "!next-ls", "!lexical"],
@@ -43,7 +47,7 @@
     "show": false,
   },
   "indent_guides": {
-    "enabled": false,
+    "enabled": true,
   },
   "agent_ui_font_size": 26.0,
   "agent_buffer_font_size": 26.0,
@@ -54,17 +58,31 @@
   "edit_predictions": {
     "mode": "subtle",
   },
-  "features": {
-    "edit_prediction_provider": "zed",
-  },
   "agent": {
     "default_profile": "write",
     "always_allow_tool_actions": true,
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-sonnet-4.5",
+      "model": "gpt-5-mini",
     },
-    "favorite_models": [],
+    "favorite_models": [
+      {
+        "provider": "copilot_chat",
+        "model": "claude-opus-4.6",
+      },
+      {
+        "provider": "ollama",
+        "model": "qwen3-coder:latest",
+      },
+      {
+        "provider": "ollama",
+        "model": "freehuntx/qwen3-coder:14b",
+      },
+      {
+        "provider": "ollama",
+        "model": "danielsheep/Qwen3-Coder-30B-A3B-Instruct-1M-Unsloth:UD-Q5_K_XL",
+      },
+    ],
     "model_parameters": [],
   },
   "show_wrap_guides": true,
@@ -72,7 +90,6 @@
   "preferred_line_length": 80,
   "vim_mode": true,
   "buffer_line_height": "comfortable",
-  "buffer_font_family": ".ZedMono",
   "terminal": {
     "font_family": "ZedMono Nerd Font Mono",
   },
@@ -85,24 +102,24 @@
   },
   "experimental.theme_overrides": {
     "editor.background": "#11111BCC",
-    "editor.gutter.background": "#11111BCC",
-    "editor.active_line.background": "#11111BCC",
-    "panel.background": "#11111B80",
-    "toolbar.background": "#11111BCC",
-    "tab_bar.background": "#11111BCC",
+    "editor.gutter.background": "#11111BE6",
+    "editor.active_line.background": "#11111BE6",
+    "panel.background": "#11111B99",
+    "toolbar.background": "#11111B4D",
+    "tab_bar.background": "#11111BE6",
     "title_bar.background": "#11111BFF",
-    "status_bar.background": "#11111BCC",
-    "tab.active_background": "#11111BCC",
-    "tab.inactive_background": "#11111BCC",
-    "terminal.background": "#11111B00",
-    "scrollbar.track.background": "#11111BCC",
+    "status_bar.background": "#11111BE6",
+    "tab.active_background": "#11111BE6",
+    "tab.inactive_background": "#11111BE6",
+    "terminal.background": "#11111BB3",
+    "scrollbar.track.background": "#11111BE6",
     "scrollbar.thumb.background": "#11111B00",
     "border": "#585b70",
     "border.variant": "#585b70",
     "border.focused": "#585b70",
     "border.disabled": "#585b70",
-    "elevated_surface.background": "#11111BCC",
-    "surface.background": "#11111BCC",
-    "background": "#11111BCC",
+    "elevated_surface.background": "#1e1e2eE6",
+    "surface.background": "#1e1e2eE6",
+    "background": "#11111B99",
   },
 }

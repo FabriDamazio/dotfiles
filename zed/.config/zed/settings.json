@@ -7,9 +7,7 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "agent_servers": {
-    
-  },
+  "agent_servers": {},
   "buffer_font_family": "Hack Nerd Font Mono",
   "languages": {
     "Elixir": {
@@ -27,7 +25,11 @@
   },
   "bottom_dock_layout": "full",
   "tabs": {
-    "git_status": false,
+    "show_close_button": "always",
+    "show_diagnostics": "off",
+    "close_position": "right",
+    "file_icons": true,
+    "git_status": true,
   },
   "title_bar": {
     "show_menus": false,
@@ -42,9 +44,10 @@
     "dock": "right",
   },
   "tab_bar": {
+    "show_pinned_tabs_in_separate_row": false,
     "show_tab_bar_buttons": true,
     "show_nav_history_buttons": true,
-    "show": false,
+    "show": true,
   },
   "indent_guides": {
     "enabled": true,
@@ -59,28 +62,44 @@
     "mode": "subtle",
   },
   "agent": {
-    "default_profile": "ask",
-    "always_allow_tool_actions": true,
+    "tool_permissions": {
+      "default": "allow",
+    },
+    "default_profile": "write",
     "default_model": {
       "provider": "copilot_chat",
-      "model": "claude-opus-4.6",
+      "model": "gemini-3.1-pro-preview",
     },
     "favorite_models": [
       {
         "provider": "copilot_chat",
         "model": "claude-opus-4.6",
+        "enable_thinking": false,
       },
       {
         "provider": "ollama",
         "model": "qwen3-coder:latest",
+        "enable_thinking": false,
       },
       {
         "provider": "ollama",
         "model": "freehuntx/qwen3-coder:14b",
+        "enable_thinking": false,
       },
       {
         "provider": "ollama",
         "model": "danielsheep/Qwen3-Coder-30B-A3B-Instruct-1M-Unsloth:UD-Q5_K_XL",
+        "enable_thinking": false,
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gemini-3.1-pro-preview",
+        "enable_thinking": false,
+      },
+      {
+        "provider": "copilot_chat",
+        "model": "gpt-5-mini",
+        "enable_thinking": false,
       },
     ],
     "model_parameters": [],
@@ -109,7 +128,7 @@
     "tab_bar.background": "#11111BE6",
     "title_bar.background": "#11111BFF",
     "status_bar.background": "#11111BE6",
-    "tab.active_background": "#11111BE6",
+    "tab.active_background": "#111111B99",
     "tab.inactive_background": "#11111BE6",
     "terminal.background": "#11111BB3",
     "scrollbar.track.background": "#11111BE6",
